@@ -1,6 +1,6 @@
 <template>
   <q-input filled v-model="model" :type="mostrar ? 'text' : 'password'" :label="label" clearable hide-bottom-space
-    lazy-rules :rules="rules" autocomplete="current-password">
+    lazy-rules :rules="rules" autocomplete="new-password">
     <template v-slot:append>
       <q-icon :name="mostrar ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="mostrar = !mostrar" />
     </template>

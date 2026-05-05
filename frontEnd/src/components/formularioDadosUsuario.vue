@@ -53,9 +53,12 @@
 
       <div class="col">
 
-        <InputSenha v-model="formularioPrincipal.senha" label="Senha"
-          :rules="valorId_tipo_usuario === null ? regras.login.senha : regras.usuario.novaSenha"
-          :disable="valorId_tipo_usuario !== null && valorId_tipo_usuario !== 1" />
+        <InputSenha 
+        v-model="formularioPrincipal.senha" 
+        label="Senha"
+        :rules="valorId_tipo_usuario === null ? regras.login.senha : regras.usuario.novaSenha"
+        :disable="valorId_tipo_usuario !== null && valorId_tipo_usuario !== 1" 
+        />
 
       </div>
     </div>
@@ -144,8 +147,6 @@ function limparCampoPeso(event: KeyboardEvent) {
   if (event.key === ',' || event.key === '.' || !/[0-9]/.test(event.key)) event.preventDefault();
 }
 
-
-
 async function createUsuarioTodosDados() {
   const usuario: DadosUsuario = {
     ...(props.usuario?.id ? { id: props.usuario.id } : {}),
@@ -162,10 +163,7 @@ async function createUsuarioTodosDados() {
     },
 
     login: {
-      email: formularioPrincipal.email,
-      ...(formularioPrincipal.senha
-        ? { senha: formularioPrincipal.senha }
-        : {})
+      email: formularioPrincipal.email,...(formularioPrincipal.senha? { senha: formularioPrincipal.senha }: {})
     }
   }
 
@@ -221,4 +219,6 @@ watch(() => props.usuario, (usuarioExistente) => {
     limparFormularioPrincipal()
   }
 }, { immediate: true })
+
+
 </script>

@@ -14,6 +14,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 function passarTela(){
-  router.push('/')
+  router.push('/login')
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <!-- <botaoLogout /> -->
+  <botaoLogout />
   <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
 
     <q-dialog v-model="modalAdicionarAberto">
@@ -54,7 +54,7 @@ import type { formularioPesquisaInterface } from '../../interfaces/formularioPes
 import { ref, onMounted, onUnmounted } from 'vue';
 import ModalDeletar from '../components/modalDeletar.vue';
 import formularioDadosUsuario from '../components/formularioDadosUsuario.vue';
-// import botaoLogout from '../components/botaoLogout.vue';
+import botaoLogout from '../components/botaoLogout.vue';
 import componenteDePesquisa from 'src/components/componenteDePesquisa.vue';
 
 import { carregarUsuarios } from '../../services/Usuarios/listarUsuarioService';
@@ -76,26 +76,26 @@ const colunas: QTableColumn[] = [
   { name: 'acoes', label: 'Ações', align: 'center', field: () => '' }
 ];
 
-const valorId_tipo_usuario = ref<number | null>(null);
-const valorId = ref<number | null>(null);
-const tempoRestante = ref("");
+// const valorId_tipo_usuario = ref<number | null>(null);
+// const valorId = ref<number | null>(null);
+// const tempoRestante = ref("");
 
-let intervalo: ReturnType<typeof setInterval>;
+// let intervalo: ReturnType<typeof setInterval>;
 
-async function verTempoToken() {
-  try {
-    const token = await listarDadosUsuarioLogado();
+// async function verTempoToken() {
+//   try {
+//     const token = await listarDadosUsuarioLogado();
 
-    if (!token) return;
+//     if (!token) return;
 
-    valorId.value = token.data.id_usuario;
-    valorId_tipo_usuario.value = token.data.id_tipo_usuario;
-    tempoRestante.value = token.data.tempo_restante + " segundos";
+//     valorId.value = token.data.id_usuario;
+//     valorId_tipo_usuario.value = token.data.id_tipo_usuario;
+//     tempoRestante.value = token.data.tempo_restante + " segundos";
 
-  } catch {
-    clearInterval(intervalo);
-  }
-}
+//   } catch {
+//     clearInterval(intervalo);
+//   }
+// }
 
 onMounted(async () => {
   try {
@@ -108,8 +108,8 @@ onMounted(async () => {
       id_tipo_usuario: token.data.id_tipo_usuario
     }));
 
-    await verTempoToken();
-    intervalo = setInterval(verTempoToken, 1000);
+    // await verTempoToken();
+    // intervalo = setInterval(verTempoToken, 1000);
 
   } catch (error) {
     console.log('Usuário não autenticado' + error);
@@ -117,7 +117,7 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
-  clearInterval(intervalo);
+  // clearInterval(intervalo);
 });
 
 async function atualizarFormulario() {
@@ -125,6 +125,7 @@ async function atualizarFormulario() {
   modalAdicionarAberto.value = false;
 }
 
+//aqui
 async function aoEditar() {
   await atualizarFormulario();
   usuarioParaEditar.value = null;
