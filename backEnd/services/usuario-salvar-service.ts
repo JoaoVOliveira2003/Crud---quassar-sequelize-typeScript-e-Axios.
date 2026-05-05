@@ -13,6 +13,7 @@ export async function salvarUsuario(
   login_query: LoginQuery = new LoginQuery(),
 ) {
 
+  
   const erros = validarObjeto(usuario);
   if (erros.length > 0) {
     throw new Error(erros.join(" | "));

@@ -6,7 +6,6 @@ import { jest } from "@jest/globals";
 
 describe("testar a deletação de usuarios", () => {
 
-   //"Quando alguém chamar o método deletar ,não execute o código real — retorne 1 diretamente."
    beforeEach(() => {
       jest.spyOn(EnderecoQuery.prototype, 'deletarEndereco').mockResolvedValue(1 as any);
       jest.spyOn(LoginQuery.prototype, 'deletarLogin').mockResolvedValue(1 as any);

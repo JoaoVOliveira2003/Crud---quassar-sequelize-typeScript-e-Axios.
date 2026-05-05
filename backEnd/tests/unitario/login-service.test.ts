@@ -32,7 +32,7 @@ describe('comporvarLogin', () => {
 
         const resultado = await comprovarLogin({
             email: '123@gmail.com',
-            senha: '123'
+            senha: '1235'
         })
 
         expect(resultado).not.toBeNull

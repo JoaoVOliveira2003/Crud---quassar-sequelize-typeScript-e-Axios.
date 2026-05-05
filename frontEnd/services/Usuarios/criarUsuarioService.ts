@@ -4,6 +4,7 @@ import api from '../../src/utils/apiConector';
 export async function criarUsuario(usuario: DadosUsuario) {
   try {
     const res = await api.post('/usuario/criarUsuario', { usuario });
+    console.log(res)
     return res.data;
   } catch (error) {
     console.error('Erro ao criar usuário:', error);

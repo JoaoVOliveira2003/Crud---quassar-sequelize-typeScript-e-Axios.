@@ -22,7 +22,7 @@ describe('Testar usuario filtrado',()=>{
       jest.clearAllMocks();
    })
 
-   it("Deve retornar filtrada",async()=>{
+   it("Deve lista de usuarios filtrado",async()=>{
       const resultado = await getTodosUsuariosFiltrados(mockFiltros)
       expect(resultado).toEqual(mockUsuarios);
    })

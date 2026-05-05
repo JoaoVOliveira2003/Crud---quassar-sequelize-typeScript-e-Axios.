@@ -5,17 +5,17 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("Cidades", [
       {
-        desc_cidade: "Curitiba",
+        desc_cidade: "São Paulo",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        desc_cidade: "Colombo",
+        desc_cidade: "Ivaipora",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        desc_cidade: "São José",
+        desc_cidade: "Marte",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -5,7 +5,6 @@ import { jest } from '@jest/globals'
 spyOn -> espionar uma função/método
 mockResolvedValue -> serve retornam Promise.resolve() 
 */
-
 describe('Listar cidades', () => {
 
   afterEach(() => {
@@ -30,7 +29,7 @@ describe('Listar cidades', () => {
 
   it('Deve retornar lista vazia se não houver cidades', async () => {
     const mockCidades = [] as any
-
+''
     jest.spyOn(CidadeQuery.prototype, 'getTodasCidades').mockResolvedValue(mockCidades)
 
     const resultado = await getCidades()

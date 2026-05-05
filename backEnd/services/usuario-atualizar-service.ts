@@ -13,6 +13,7 @@ export async function atualizarUsuarioService(
   endereco_query: EnderecoQuery = new EnderecoQuery(),
   login_query: LoginQuery = new LoginQuery(),
 ) {
+
   const erros = validarObjeto(usuario);
   if (erros.length > 0) {
     throw new Error(erros.join(" | "));

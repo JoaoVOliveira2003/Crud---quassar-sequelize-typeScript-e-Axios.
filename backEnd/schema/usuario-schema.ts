@@ -75,7 +75,9 @@ export class UsuarioQuery {
 
   async criarUsuario(usuario: DadosUsuario) {
     try {
+
       return await UsuarioSchema.create(usuario as any);
+
     } catch (error) {
       throw error;
     }

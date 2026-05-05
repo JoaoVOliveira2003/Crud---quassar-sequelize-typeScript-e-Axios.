@@ -14,12 +14,13 @@ export namespace usuarioController {
       res.json(usuarios);
     } catch (error: any) {
       console.log(error);
-      res.status(500).json({ erro: error.message });
+      res.status(500).json({ erro: error.message });''
     }
   }
 
   export async function gravarUsuario(req: Request, res: Response) {
     try {
+
       let usuario = req.body.usuario;
       const token = req.cookies?.token;
 

@@ -8,7 +8,7 @@ export async function comprovarLogin(
   login_query: LoginQuery = new LoginQuery(),
 ) {
 
-  login.senha = CryptoJS.HmacSHA256(login.senha,process.env.CRYPTO_SECRET!,).toString();
+  login.senha = CryptoJS.HmacSHA256(login.senha,process.env.CRYPTO_SECRET!).toString();
 
   const resultado = await login_query.realizarLogin(login);
 
