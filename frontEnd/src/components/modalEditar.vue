@@ -3,7 +3,6 @@
         <q-card style="min-width: 350px">
             <q-card-section>
                 <div class="text-h6 q-mb-md">Editar usuário</div>
-
                 <q-form ref="formEditarRef" greedy>
 
                     <q-input filled v-model="formularioLocal.nome" label="Nome" class="bordered q-mb-sm" clearable

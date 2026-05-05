@@ -1,5 +1,5 @@
 <template>
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <q-page-sticky >
         <q-btn label="Logout" @click="logout()" />
     </q-page-sticky>
 </template>

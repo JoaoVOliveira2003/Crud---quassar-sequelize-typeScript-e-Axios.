@@ -66,7 +66,7 @@ export class UsuarioQuery {
             required: true,
           },
         ],
-        order: [["id", "asc"]],
+        order: [["id", "DESC"]],
       });
     } catch (error) {
       return error;

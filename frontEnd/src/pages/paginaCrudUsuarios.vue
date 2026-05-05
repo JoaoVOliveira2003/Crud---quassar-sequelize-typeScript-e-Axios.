@@ -1,14 +1,23 @@
 <template>
+  <!-- <botaoLogout /> -->
+  <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
 
-  <botaoLogout />
+    <q-dialog v-model="modalAdicionarAberto">
+      <q-card style="min-width: 900px">
+        <q-card-section>
+          <h4 class="flex flex-center q-my-none">
+            {{ usuarioParaEditar ? 'Editar usuário' : 'Inserir novo usuário' }}
+          </h4>
 
-  <div class="q-pa-md" style="max-width: 600px; margin: auto;">
-    <h4 class="flex flex-center q-my-none">Inserir novo usuario </h4>
-    <hr />
-
-    <formularioDadosUsuario @usuarioCriado="atualizarFormulario" />
-
-    <br>
+          <hr />
+        </q-card-section>
+        <q-card-section>
+          <!-- <formularioDadosUsuario @usuarioCriado="atualizarFormulario" /> -->
+          <formularioDadosUsuario :usuario="usuarioParaEditar" @usuarioCriado="atualizarFormulario"
+            @usuarioEditado="aoEditar" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     <componenteDePesquisa @pesquisar="fazerPesquisa" />
     <br>
 
@@ -25,19 +34,15 @@
       </template>
     </q-table>
 
-    <q-btn hidden @click="testeToken"> testeToken </q-btn>
 
-    <ModalEditar v-model:modeloAberto="modalAberto" :usuario="usuarioParaEditar" @salvar="atualizarUsuario" />
     <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :usuario="usuarioParaDeletar"
       @confirmarDelete="confirmarDelete" />
   </div>
 
-  <div v-if="valorId_tipo_usuario === 1">
-    conteúdo só para admin
-  </div>
-  id_tipo_usuario->{{ valorId_tipo_usuario }} <br>
-  Tempo ->{{ tempoRestante }} <br>
-  id ->{{ valorId }} <br>
+  <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right q-mr-xl q-mb-xl">
+    <q-fab-action color="blue" icon="add" label="Adicionar" @click="abrirModalAdicionar" label-position="left" />
+  </q-fab>
+
 </template>
 
 
@@ -48,26 +53,21 @@ import type { formularioPesquisaInterface } from '../../interfaces/formularioPes
 
 import { ref, onMounted, onUnmounted } from 'vue';
 import ModalDeletar from '../components/modalDeletar.vue';
-import ModalEditar from '../components/modalEditar.vue';
 import formularioDadosUsuario from '../components/formularioDadosUsuario.vue';
-import botaoLogout from '../components/botaoLogout.vue';
+// import botaoLogout from '../components/botaoLogout.vue';
 import componenteDePesquisa from 'src/components/componenteDePesquisa.vue';
 
 import { carregarUsuarios } from '../../services/Usuarios/listarUsuarioService';
-import { atualizarUsuarioService } from '../../services/Usuarios/atualizarUsuarioService';
 import { deletarUsuario } from '../../services/Usuarios/deletarUsuarioService';
 import { buscarUsuariosFiltrados } from '../../services/Usuarios/listarUsuarioServiceFiltrados';
 import { listarDadosUsuarioLogado } from '../../services/UsuarioLogado/listarDadosUsuarioLogado'
-import { perfilCookie } from '../../services/Usuarios/perfilCookieService'
-
-import axios from "axios";
 
 const usuarios = ref<DadosUsuario[]>([]);
 const usuarioParaEditar = ref<DadosUsuario | null>(null);
 const usuarioParaDeletar = ref<DadosUsuario | null>(null);
 
-const modalAberto = ref(false);
 const modalDeletarAberto = ref(false);
+const modalAdicionarAberto = ref(false);
 
 const colunas: QTableColumn[] = [
   { name: 'id', label: 'ID', field: 'id', sortable: true, align: 'left' },
@@ -120,64 +120,16 @@ onUnmounted(() => {
   clearInterval(intervalo);
 });
 
-
-async function testeToken() {
-  const dadosUsuario = await perfilCookie();
-  console.log(dadosUsuario); // objeto completo
-}
-
-
 async function atualizarFormulario() {
   usuarios.value = await carregarUsuarios();
+  modalAdicionarAberto.value = false;
 }
 
-async function atualizarUsuario(dados: DadosUsuario) {
-
-  const dadosCorretos: DadosUsuario = {
-    id: dados.id,
-    nome: dados.nome,
-    dataDeNascimento: dados.dataDeNascimento,
-    peso: dados.peso,
-    altura: dados.altura,
-    id_tipo_usuario: dados.id_tipo_usuario,
-    endereco: {
-      rua: dados.endereco?.rua ?? dados.endereco.rua!,
-      numero: dados.endereco?.numero ?? dados.endereco.numero!,
-      cod_cidade: dados.endereco?.cod_cidade ?? dados.endereco.cod_cidade!
-    },
-    login: {
-      email: dados.login?.email,
-      ...(dados.login?.senha && { senha: dados.login.senha })
-    }
-  };
-
-  try {
-    await atualizarUsuarioService(dadosCorretos);
-    modalAberto.value = false;
-
-    try {
-      await atualizarFormulario();
-    } catch (error) {
-      if (
-        axios.isAxiosError(error) &&
-        error.response?.status === 401 &&
-        error.response?.data?.message === "Não autorizado"
-      ) {
-        console.warn("401 ignorado ao recarregar lista.");
-      } else {
-        throw error;
-      }
-    }
-
-    alert("Usuário atualizado com sucesso");
-    usuarioParaEditar.value = null;
-
-  } catch (error) {
-    console.error(error);
-    alert("Erro ao atualizar usuário");
-  }
-
+async function aoEditar() {
+  await atualizarFormulario();
+  usuarioParaEditar.value = null;
 }
+
 
 async function confirmarDelete() {
   if (!usuarioParaDeletar.value) return;
@@ -195,15 +147,20 @@ async function confirmarDelete() {
 }
 
 function abrirModalEditar(row: DadosUsuario) {
-
   usuarioParaEditar.value = row;
-  modalAberto.value = true;
+  modalAdicionarAberto.value = true;
 }
 
 function abrirModalDeletar(row: DadosUsuario) {
   usuarioParaDeletar.value = row;
   modalDeletarAberto.value = true;
 }
+
+function abrirModalAdicionar() {
+  usuarioParaEditar.value = null;
+  modalAdicionarAberto.value = true;
+}
+
 
 async function fazerPesquisa(filtros: formularioPesquisaInterface) {
   usuarios.value = await buscarUsuariosFiltrados(filtros);

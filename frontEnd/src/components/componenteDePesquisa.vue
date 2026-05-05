@@ -1,8 +1,6 @@
 <template>
-  <div class="q-pa-md">
-    <h5 class="q-mb-md text-weight-medium">
-      Pesquisar dados na tabela
-    </h5>
+<div class="q-pa-xs">
+    <h5 class="q-mb-md text-weight-medium">Pesquisar dados na tabela</h5>
 
     <div class="row q-col-gutter-md items-end">
 
@@ -20,9 +18,9 @@
 
       <div class="col-12 col-md-4 flex justify-end q-gutter-sm">
         <q-btn label="Limpar" color="primary" icon="clear" unelevated @click="resetar" />
-
         <q-btn label="Pesquisar" color="primary" icon="search" unelevated @click="pesquisar" />
       </div>
+      
     </div>
   </div>
 </template>
