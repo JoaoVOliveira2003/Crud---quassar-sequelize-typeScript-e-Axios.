@@ -23,4 +23,15 @@ export namespace loginController {
       })
       .sendStatus(200);
   }
+
+  export async function logout(_req: Request, res: Response) {
+    return res
+      .clearCookie("token", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax"
+      })
+      .sendStatus(200);
+  }
+
 }

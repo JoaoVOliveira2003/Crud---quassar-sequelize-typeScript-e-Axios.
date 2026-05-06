@@ -1,19 +1,13 @@
 <template>
     <q-page-sticky >
-        <q-btn label="Logout" @click="logout()" />
+        <q-btn label="Logout" @click="sair()" />
     </q-page-sticky>
 </template>
 <script setup lang="ts">
-
-import { useRouter } from 'vue-router';
-const router = useRouter();
-import axios from 'axios';
-import api from '../utils/apiConector'; // ou onde estiver
-
-function logout() {
-    localStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
-    delete api.defaults.headers.common['Authorization'];
-    router.push('/login');
+import { useRouter } from 'vue-router'
+import { logout } from '../utils/funcoes'
+const router = useRouter()
+function sair() {
+  logout(router)
 }
 </script>

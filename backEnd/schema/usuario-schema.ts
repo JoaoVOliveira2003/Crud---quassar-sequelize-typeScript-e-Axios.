@@ -2,10 +2,10 @@ import { DataTypes } from "sequelize";
 import { conecta } from "../config/conecta";
 import { EnderecoSchema } from "./endereco-schema.js";
 import { CidadeSchema } from "./cidade-shema.js";
+import { TipoUsuarioSchema } from "./tipoUsuario-schema.js";
 import { DadosUsuario } from "../interfaces/usuarioInterface";
 import { formularioPesquisaInterface } from "../interfaces/formularioPesquisaInterface.js";
 import { LoginSchema } from "./login-schema.js";
-import { TipoUsuarioSchema } from "./tipoUsuario-schema.js";
 import { Op } from "sequelize";
 
 export const UsuarioSchema = conecta.define("Usuario", {
@@ -31,6 +31,11 @@ export const UsuarioSchema = conecta.define("Usuario", {
     foreignKey: "id_tipo_usuario",
     as: "tipoUsuario",
   });
+  this.hasMany(schema.NotaSchema, {
+    foreignKey: "id_usuario",
+    as: "notaUsuario",
+
+  });
 };
 
 export class UsuarioQuery {
@@ -38,6 +43,17 @@ export class UsuarioQuery {
     return UsuarioSchema;
   }
 
+  async getIdNomeUsuario() {
+    try {
+      return await UsuarioSchema.findAll({
+        attributes: ["id", "nome"],
+        order: [["id", "DESC"]],
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+  
   async getUsuarios() {
     try {
       return await UsuarioSchema.findAll({

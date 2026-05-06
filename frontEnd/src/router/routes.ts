@@ -13,13 +13,24 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/login',
+    path: '/atividades',
     component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/paginaCrudAtividades.vue'),
+        meta: { requiresAuth: true }
+      }
+    ]
+  },
+  {
+    path: '/login',
+    // component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/paginaLogin.vue') }],
   },
   {
     path: '/cadastro',
-    component: () => import('layouts/MainLayout.vue'),
+    // component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/paginaRegistro.vue') }],
   },
 ];

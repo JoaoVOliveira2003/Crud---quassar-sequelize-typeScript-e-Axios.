@@ -5,6 +5,7 @@ import { deletarUsuarioService } from "../services/usuario-deletar-service";
 import { atualizarUsuarioService } from "../services/usuario-atualizar-service";
 import { getTodosUsuariosFiltrados } from "../services/usuario-get-filtrado-service";
 import { getVerificarTipoUsuario } from "../services/usuario-get-verificar-tipo-service";
+import { getUsuariosIdNome as getUsuariosDadosIdNome} from "../services/usuario-get-IdNome-service";
 import jwt from "jsonwebtoken";
 
 export namespace usuarioController {
@@ -14,7 +15,17 @@ export namespace usuarioController {
       res.json(usuarios);
     } catch (error: any) {
       console.log(error);
-      res.status(500).json({ erro: error.message });''
+      res.status(500).json({ erro: error.message }); ''
+    }
+  }
+
+  export async function getUsuariosIdNome(req: Request, res: Response) {
+    try {
+      const usuarios = await getUsuariosDadosIdNome();
+      res.json(usuarios);
+    } catch (error: any) {
+      console.log(error);
+      res.status(500).json({ erro: error.message }); ''
     }
   }
 
@@ -97,7 +108,7 @@ export namespace usuarioController {
     try {
       let id_usuario = req.body.id_usuario;
       let id_tipo_usuario = req.body.id_tipo_usuario;
-      const retorno = await getVerificarTipoUsuario(id_usuario,id_tipo_usuario,);
+      const retorno = await getVerificarTipoUsuario(id_usuario, id_tipo_usuario,);
       res.json(retorno);
     } catch (error: any) {
       res.status(500).json({

@@ -5,9 +5,10 @@ import { validarBody } from '../middleware/validacao/validacao-middleware';
 
 export const routerUsuarios = Router();
 
+routerUsuarios.get('/usuariosIdNome', async (req,res)=> await usuarioController.getUsuariosIdNome(req,res));
 routerUsuarios.get("/filtroUsuarios/", async (req, res) => await usuarioController.getUsuariosFiltrado(req, res));
 routerUsuarios.use(validarBody) 
-routerUsuarios.post("/criarUsuario/",    validarTokenNaoObrigatorioMiddleware,    async (req, res) => await usuarioController.gravarUsuario(req, res));
+routerUsuarios.post("/criarUsuario/", validarTokenNaoObrigatorioMiddleware,async (req, res) => await usuarioController.gravarUsuario(req, res));
 routerUsuarios.use(validarTokenObrigatorioMiddleware)
 routerUsuarios.get("", async (req, res) => await usuarioController.getUsuarios(req, res));
 routerUsuarios.put('/atualizarUsuario/:id',async(req,res)=> await usuarioController.atualizarUsuario(req,res));

@@ -1,5 +1,4 @@
 <template>
-  <botaoLogout />
   <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
 
     <q-dialog v-model="modalAdicionarAberto">
@@ -8,7 +7,6 @@
           <h4 class="flex flex-center q-my-none">
             {{ usuarioParaEditar ? 'Editar usuário' : 'Inserir novo usuário' }}
           </h4>
-
           <hr />
         </q-card-section>
         <q-card-section>
@@ -18,6 +16,8 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+
     <componenteDePesquisa @pesquisar="fazerPesquisa" />
     <br>
 
@@ -54,8 +54,7 @@ import type { formularioPesquisaInterface } from '../../interfaces/formularioPes
 import { ref, onMounted, onUnmounted } from 'vue';
 import ModalDeletar from '../components/modalDeletar.vue';
 import formularioDadosUsuario from '../components/formularioDadosUsuario.vue';
-import botaoLogout from '../components/botaoLogout.vue';
-import componenteDePesquisa from 'src/components/componenteDePesquisa.vue';
+import componenteDePesquisa from 'src/components/componenteDePesquisaUsuario.vue';
 
 import { carregarUsuarios } from '../../services/Usuarios/listarUsuarioService';
 import { deletarUsuario } from '../../services/Usuarios/deletarUsuarioService';
@@ -76,27 +75,6 @@ const colunas: QTableColumn[] = [
   { name: 'acoes', label: 'Ações', align: 'center', field: () => '' }
 ];
 
-// const valorId_tipo_usuario = ref<number | null>(null);
-// const valorId = ref<number | null>(null);
-// const tempoRestante = ref("");
-
-// let intervalo: ReturnType<typeof setInterval>;
-
-// async function verTempoToken() {
-//   try {
-//     const token = await listarDadosUsuarioLogado();
-
-//     if (!token) return;
-
-//     valorId.value = token.data.id_usuario;
-//     valorId_tipo_usuario.value = token.data.id_tipo_usuario;
-//     tempoRestante.value = token.data.tempo_restante + " segundos";
-
-//   } catch {
-//     clearInterval(intervalo);
-//   }
-// }
-
 onMounted(async () => {
   try {
     usuarios.value = await carregarUsuarios();
@@ -108,16 +86,12 @@ onMounted(async () => {
       id_tipo_usuario: token.data.id_tipo_usuario
     }));
 
-    // await verTempoToken();
-    // intervalo = setInterval(verTempoToken, 1000);
-
   } catch (error) {
     console.log('Usuário não autenticado' + error);
   }
 });
 
 onUnmounted(() => {
-  // clearInterval(intervalo);
 });
 
 async function atualizarFormulario() {
@@ -130,7 +104,6 @@ async function aoEditar() {
   await atualizarFormulario();
   usuarioParaEditar.value = null;
 }
-
 
 async function confirmarDelete() {
   if (!usuarioParaDeletar.value) return;
@@ -161,7 +134,6 @@ function abrirModalAdicionar() {
   usuarioParaEditar.value = null;
   modalAdicionarAberto.value = true;
 }
-
 
 async function fazerPesquisa(filtros: formularioPesquisaInterface) {
   usuarios.value = await buscarUsuariosFiltrados(filtros);

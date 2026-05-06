@@ -1,6 +1,6 @@
 <template>
 <div class="q-pa-xs">
-    <h5 class="q-mb-md text-weight-medium">Pesquisar dados na tabela</h5>
+    <h5 class="q-mb-md text-weight-medium">Pesquisar usuario.</h5>
 
     <div class="row q-col-gutter-md items-end">
 

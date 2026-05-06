@@ -1,7 +1,6 @@
 import { UsuarioQuery } from "../schema/usuario-schema.ts";
 import { EnderecoQuery } from "../schema/endereco-schema.ts";
 import { LoginQuery } from "../schema/login-schema.ts";
-// import { validarGenerico } from "./validar-campos-service.ts";
 import {validarObjeto} from "../middleware/validacao/validacao-middleware.ts"
 import { DadosUsuario } from "../interfaces/usuarioInterface.ts";
 import CryptoJS from "crypto-js";
