@@ -35,8 +35,7 @@
     </q-table>
 
 
-    <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :usuario="usuarioParaDeletar"
-      @confirmarDelete="confirmarDelete" />
+    <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :usuario="usuarioParaDeletar" @confirmarDelete="confirmarDelete" />
   </div>
 
   <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right q-mr-xl q-mb-xl">

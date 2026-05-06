@@ -53,7 +53,7 @@ export class UsuarioQuery {
       throw error;
     }
   }
-  
+
   async getUsuarios() {
     try {
       return await UsuarioSchema.findAll({
@@ -166,7 +166,6 @@ export class UsuarioQuery {
       return error;
     }
   }
-
   async verificarTipoUsuario(id_usuario: number, id_tipo_usuario: number) {
     try {
       const retorno = await UsuarioSchema.findOne({

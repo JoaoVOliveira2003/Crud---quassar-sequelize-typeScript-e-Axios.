@@ -30,21 +30,21 @@ export class notaQuery {
     return NotaSchema;
   }
 
-async getTodasNotas() {
-  try {
-    return await NotaSchema.findAll({
-      include: [
-        {
-          model: UsuarioSchema,
-      as: "usuario",
-          attributes: ["id", "nome"]
-        }
-      ]
-    });
-  } catch (error) {
-    throw error;
+  async getTodasNotas() {
+    try {
+      return await NotaSchema.findAll({
+        include: [
+          {
+            model: UsuarioSchema,
+            as: "usuario",
+            attributes: ["id", "nome"]
+          }
+        ]
+      });
+    } catch (error) {
+      throw error;
+    }
   }
-}
 
   async criarNota(dadosNota: NotaInterface) {
     try {
@@ -75,42 +75,42 @@ async getTodasNotas() {
     }
   }
 
-async getNotasFiltradas(filtros: formularioPesquisaNotaInterface) {
-  try {
-    const where: any = {};
+  async getNotasFiltradas(filtros: formularioPesquisaNotaInterface) {
+    try {
+      const where: any = {};
 
-    if (filtros.id_usuario) {
-      where.id_usuario = filtros.id_usuario;
+      if (filtros.id_usuario) {
+        where.id_usuario = filtros.id_usuario;
+      }
+
+      if (filtros.desc_nota) {
+        where.desc_nota = {
+          [Op.like]: `%${filtros.desc_nota}%`
+        };
+      }
+
+      if (filtros.id_tipo_nota) {
+        where.id_tipo_nota = filtros.id_tipo_nota;
+      }
+
+      if (filtros.finalizada_nota !== undefined) {
+        where.finalizada_nota = filtros.finalizada_nota;
+      }
+
+      return await NotaSchema.findAll({
+        include: [
+          {
+            model: UsuarioSchema,
+            as: "usuario",
+            attributes: ["id", "nome"]
+          }
+        ],
+        where,
+        order: [["id_nota", "DESC"]],
+      });
+
+    } catch (error) {
+      throw error;
     }
-
-    if (filtros.desc_nota) {
-      where.desc_nota = {
-        [Op.like]: `%${filtros.desc_nota}%`
-      };
-    }
-
-    if (filtros.id_tipo_nota) {
-      where.id_tipo_nota = filtros.id_tipo_nota;
-    }
-
-    if (filtros.finalizada_nota !== undefined) {
-      where.finalizada_nota = filtros.finalizada_nota;
-    }
-
-    return await NotaSchema.findAll({
-include: [
-        {
-          model: UsuarioSchema,
-      as: "usuario",
-          attributes: ["id", "nome"]
-        }
-      ],
-      where,
-      order: [["id_nota", "DESC"]],
-    });
-
-  } catch (error) {
-    throw error;
   }
-}
 }

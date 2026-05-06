@@ -3,7 +3,7 @@
     <q-card style="min-width: 300px">
       <q-card-section class="text-center">
         <div class="text-h6">
-          Tem certeza que quer deletar "{{ usuario?.nome }}"?
+          Tem certeza que quer deletar "{{ nome }}"?
         </div>
       </q-card-section>
       <q-card-actions align="center">
@@ -16,21 +16,24 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { DadosUsuario } from '../../interfaces/usuarioInterface'
 
 const props = defineProps<{
-  modeloAberto: boolean, usuario?: DadosUsuario | null
+  modeloAberto: boolean
+  nome?: string | null
 }>()
 
 const emit = defineEmits<{
-  'update:modeloAberto': [value: boolean], 'confirmarDelete': []
+  'update:modeloAberto': [value: boolean]
+  'confirmarDelete': []
 }>()
 
 const model = computed({
-  get: () => props.modeloAberto, set: (val) => emit('update:modeloAberto', val)
+  get: () => props.modeloAberto,
+  set: (val) => emit('update:modeloAberto', val)
 })
 
 function confirmarDelete() {
   emit('confirmarDelete')
+  emit('update:modeloAberto', false)
 }
 </script>

@@ -30,5 +30,7 @@ watch(internalValue, (val) => {
 
 onMounted(async () => {
   usuarios.value = await carregarUsuariosIdNome()
+  console.log(usuarios)
+  
 })
 </script>
