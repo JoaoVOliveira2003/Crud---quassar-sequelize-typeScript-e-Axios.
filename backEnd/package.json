@@ -3,13 +3,13 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "test": "jest --verbose",
-  "test:unit": "jest tests/unitario --verbose",
-  "test:integration": "jest tests/integracao --verbose",
-  "dev": "tsx watch server.ts",
-  "banco": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
-},
+  "scripts": {
+    "test": "jest --verbose",
+    "test:unit": "jest tests/unitario --verbose",
+    "test:integration": "jest tests/integracao --verbose",
+    "dev": "tsx watch server.ts",
+    "banco": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,13 +17,22 @@
   "jest": {
     "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",
-    "testMatch": ["**/tests/**/*.test.ts"],
-    "extensionsToTreatAsEsm": [".ts"],
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "transform": {
-      "^.+\\.tsx?$": ["ts-jest", { "useESM": true }]
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
     }
   },
   "dependencies": {
@@ -56,6 +65,6 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }

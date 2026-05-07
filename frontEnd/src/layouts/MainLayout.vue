@@ -36,13 +36,13 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple to="/atividades">
+        <q-item clickable v-ripple to="/notas">
           <q-item-section avatar>
             <q-icon name="format_list_bulleted" />
           </q-item-section>
 
           <q-item-section>
-            Lista de atividades
+            Lista de notas
           </q-item-section>
         </q-item>
 

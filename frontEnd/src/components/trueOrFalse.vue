@@ -1,7 +1,5 @@
-<!-- trueOrFalse.vue -->
-
 <template>
-  <div class="row q-gutter-sm">
+  <div class="row no-wrap q-gutter-sm" style="min-width: 68px;">
 
     <q-btn
       square
@@ -29,13 +27,25 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-const props = defineProps({
-  valor: Boolean
+const props = defineProps<{
+  modelValue: boolean
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean]
+  'atualizarFinalizada': [value: boolean]
+}>()
+
+
+const valorInterno = ref(props.modelValue)
+
+watch(() => props.modelValue, (novo) => {
+  valorInterno.value = novo
 })
 
-const valorInterno = ref(props.valor)
+watch(valorInterno, (novo) => {
+  emit('update:modelValue', novo)
+  emit('atualizarFinalizada',novo)
 
-watch(() => props.valor, (novo) => {
-  valorInterno.value = novo
 })
 </script>

@@ -30,7 +30,7 @@ watch(internalValue, (val) => {
 
 onMounted(async () => {
   usuarios.value = await carregarUsuariosIdNome()
-  console.log(usuarios)
-  
+  internalValue.value = props.modelValue 
 })
+
 </script>

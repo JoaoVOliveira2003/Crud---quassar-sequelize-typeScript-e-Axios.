@@ -37,9 +37,10 @@ export class notaQuery {
           {
             model: UsuarioSchema,
             as: "usuario",
-            attributes: ["id", "nome"]
+            attributes: ["id", "nome"],
           }
-        ]
+        ],
+        order: [["id_nota", "DESC"]],
       });
     } catch (error) {
       throw error;
@@ -74,6 +75,9 @@ export class notaQuery {
       throw error;
     }
   }
+
+
+
 
   async getNotasFiltradas(filtros: formularioPesquisaNotaInterface) {
     try {

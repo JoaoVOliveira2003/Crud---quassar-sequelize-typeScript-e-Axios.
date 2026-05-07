@@ -10,7 +10,7 @@ import { formularioPesquisaNotaInterface  } from "../interfaces/formularioPesqui
 export namespace notasController {
 
    export async function getNotas(_req: Request, res: Response) {
-      try {
+      try {         
          const notas = await getTodasNotas();
          res.json(notas);
       } catch (error: any) {
@@ -47,7 +47,7 @@ export namespace notasController {
    export async function atualizarNota(req: Request, res: Response) {
       try {
          const id = Number(req.params.id);
-         const nota = req.body.nota;
+         const nota = req.body;
 
          const retorno = await atualizarNotaService(id, nota);
          res.json(retorno);
@@ -62,7 +62,6 @@ export namespace notasController {
 
    export async function getNotaFiltrado(req: Request, res: Response) {
       try {
-
          const filtros = req.body.filtro as formularioPesquisaNotaInterface;
          const retorno = await getTodasNotasFiltradas(filtros) ;
          res.json(retorno);
@@ -74,6 +73,5 @@ export namespace notasController {
          });
       }
    }
-
 
 }

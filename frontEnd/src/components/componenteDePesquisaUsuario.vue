@@ -1,49 +1,51 @@
 <template>
-<div class="q-pa-xs">
-    <h5 class="q-mb-md text-weight-medium">Pesquisar usuario.</h5>
+  <div class="pesquisa-card">
 
-    <div class="row q-col-gutter-md items-end">
-
-      <div class="col-12 col-md-4">
-        <q-input filled dense v-model="formularioPesquisa.nome" label="Nome" clearable hide-bottom-space>
-          <template v-slot:prepend>
+    <div class="row q-col-gutter-md">
+      <div class="col-12 col-md-6">
+        <p class="field-label">Nome</p>
+        <q-input filled dense v-model="formularioPesquisa.nome" placeholder="Buscar por nome..." clearable
+          hide-bottom-space>
+          <template #prepend>
             <q-icon name="search" />
           </template>
         </q-input>
       </div>
 
-      <div class="col-12 col-md-4">
-        <selectTipoUsuario dense v-model="formularioPesquisa.tipoUsuario" />
+      <div class="col-12 col-md-6">
+        <p class="field-label">Tipo de Usuário</p>
+        <selectTipoUsuario v-model="formularioPesquisa.tipoUsuario" />
       </div>
+    </div>
 
-      <div class="col-12 col-md-4 flex justify-end q-gutter-sm">
-        <q-btn label="Limpar" color="primary" icon="clear" unelevated @click="resetar" />
-        <q-btn label="Pesquisar" color="primary" icon="search" unelevated @click="pesquisar" />
-      </div>
-      
+    <q-separator class="q-my-md" />
+
+    <div class="row justify-end q-gutter-sm">
+      <q-btn label="Limpar" icon="clear" flat unelevated @click="resetar" />
+      <q-btn label="Pesquisar" icon="search" color="primary" unelevated @click="pesquisar" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive } from 'vue'
 import selectTipoUsuario from './selectTipoUsuario.vue'
 
-const emit = defineEmits(['pesquisar']);
+const emit = defineEmits<{ pesquisar: [payload: typeof formularioPesquisa] }>()
 
 const estadoInicial = {
-  nome: '',
+  nome: '' as string,
   tipoUsuario: null as number | null,
-};
+}
 
-const formularioPesquisa = reactive({ ...estadoInicial });
+const formularioPesquisa = reactive({ ...estadoInicial })
 
 function pesquisar() {
-  emit('pesquisar', { ...formularioPesquisa });
+  emit('pesquisar', { ...formularioPesquisa })
 }
 
 function resetar() {
-  Object.assign(formularioPesquisa, estadoInicial);
-  pesquisar();
+  Object.assign(formularioPesquisa, estadoInicial)
+  pesquisar()
 }
 </script>

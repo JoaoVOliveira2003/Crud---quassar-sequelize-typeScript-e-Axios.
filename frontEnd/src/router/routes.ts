@@ -13,12 +13,12 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/atividades',
+    path: '/notas',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
         path: '',
-        component: () => import('pages/paginaCrudAtividades.vue'),
+        component: () => import('pages/paginaCrudNotas.vue'),
         meta: { requiresAuth: true }
       }
     ]

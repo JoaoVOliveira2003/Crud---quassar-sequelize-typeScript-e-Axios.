@@ -45,8 +45,7 @@ async function realizarLogin() {
     }
 
     try {
-        const dadoTeste = await login(dadosLogin);
-        console.log('indo pra home ' + dadoTeste);
+         await login(dadosLogin);
         router.push('/');
     }
     catch (error) {

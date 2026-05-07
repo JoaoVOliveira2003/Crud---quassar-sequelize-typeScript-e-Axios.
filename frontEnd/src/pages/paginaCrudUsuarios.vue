@@ -17,7 +17,6 @@
       </q-card>
     </q-dialog>
 
-
     <componenteDePesquisa @pesquisar="fazerPesquisa" />
     <br>
 
@@ -51,6 +50,7 @@ import type { DadosUsuario } from '../../interfaces/usuarioInterface';
 import type { formularioPesquisaInterface } from '../../interfaces/formularioPesquisaInterface'
 
 import { ref, onMounted, onUnmounted } from 'vue';
+
 import ModalDeletar from '../components/modalDeletar.vue';
 import formularioDadosUsuario from '../components/formularioDadosUsuario.vue';
 import componenteDePesquisa from 'src/components/componenteDePesquisaUsuario.vue';

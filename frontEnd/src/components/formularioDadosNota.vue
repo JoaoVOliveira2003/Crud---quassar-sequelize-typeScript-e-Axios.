@@ -1,6 +1,6 @@
 <template>
    <q-card-section>
-      <q-form ref="formRef" greedy @submit.prevent="" class="q-gutter-md">
+      <q-form ref="formRef" greedy @submit.prevent="createNotaTodosDados" class="q-gutter-md">
 
          <selectNomeIdUsuario lazy-rules v-model="formularioPrincipal.usuarioSelecionado" />
 
@@ -11,19 +11,18 @@
                <div class="text-subtitle2 text-grey-8 q-mb-sm">
                   Finalizada
                </div>
-
                <div class="bg-grey-2 rounded-borders q-pa-sm">
-                  <TrueOrFalse :valor="formularioPrincipal.finalizado_nota" v-model="formularioPrincipal.finalizado_nota" />
+                  <TrueOrFalse v-model="formularioPrincipal.finalizado_nota" />
                </div>
             </div>
 
             <div class="col-12 col-md-6">
-               <div class="text-subtitle2 text-grey-8 q-mb-sm">
-                  Nível de prioridade
-               </div>
+               <div class="text-subtitle2 text-grey-8 q-mb-sm">Nível de prioridade</div>
 
                <div class="bg-grey-2 rounded-borders q-pa-sm">
-                  <farolComponente :valor="formularioPrincipal.id_tipo_nota" v-model="formularioPrincipal.id_tipo_nota" @update:valor="1" />
+
+                  <farolComponente v-model="formularioPrincipal.id_tipo_nota"  />
+
                </div>
             </div>
          </div>
@@ -41,6 +40,11 @@ import farolComponente from '../components/farolComponente.vue';
 import TrueOrFalse from '../components/trueOrFalse.vue';
 import selectNomeIdUsuario from '../components/selectNomeIdUsuario.vue';
 import type { NotaInterface } from '../../interfaces/notaInterface'
+import axios from 'axios'
+import { atualizarNotaService } from '../../services/Notas/atualizarNota'
+import { criarNota } from '../../services/Notas/criarNota'
+
+const emit = defineEmits(['notaCriado', 'notaEditado'])
 
 const props = defineProps<{
    botaoVoltar?: boolean,
@@ -48,18 +52,37 @@ const props = defineProps<{
 }>()
 
 function preencherFormulario(nota: NotaInterface) {
-   formularioPrincipal.usuarioSelecionado = nota.usuario.id ?? null
+   formularioPrincipal.usuarioSelecionado = nota.id_usuario ?? null
    formularioPrincipal.desc_nota = nota.desc_nota ?? ''
-   formularioPrincipal.finalizado_nota = nota.finalizada_nota ?? ''
+   formularioPrincipal.finalizado_nota = nota.finalizada_nota ?? false
    formularioPrincipal.id_tipo_nota = nota.id_tipo_nota ?? null
+   formularioPrincipal.id_nota = nota.id_nota ?? null        // ✅
+   formularioPrincipal.id_usuario = nota.id_usuario ?? null  // ✅
 }
+
+function limparFormularioPrincipal() {
+   Object.assign(formularioPrincipal, estadoInicial);
+   // if (formularioPrincipal) formularioPrincipal.resetValidation();
+}
+
 
 const formularioPrincipal = reactive({
    usuarioSelecionado: null as number | null,
    desc_nota: '' as string,
    finalizado_nota: false as boolean,
    id_tipo_nota: null as number | null,
+   id_nota: null as number | null,
+   id_usuario: null as number | null,
 })
+
+const estadoInicial = {
+   usuarioSelecionado: null,
+   desc_nota: '',
+   finalizado_nota: null,
+   id_tipo_nota: null,
+   id_nota: null,
+   id_usuario: null,
+};
 
 
 watch(() => props.nota, (usuarioExistente) => {
@@ -67,8 +90,44 @@ watch(() => props.nota, (usuarioExistente) => {
       preencherFormulario(usuarioExistente)
    }
    else {
-      //  limparFormularioPrincipal()
+      limparFormularioPrincipal()
    }
 }, { immediate: true })
+
+async function createNotaTodosDados() {
+
+   const nota: NotaInterface = {
+      desc_nota: formularioPrincipal.desc_nota,
+      id_tipo_nota: formularioPrincipal.id_tipo_nota!,
+      id_usuario: formularioPrincipal.usuarioSelecionado!,
+      finalizada_nota: formularioPrincipal.finalizado_nota,
+      ...(formularioPrincipal.id_nota && { id_nota: formularioPrincipal.id_nota }),
+   }
+
+   try {
+      if (formularioPrincipal.id_nota) {
+         try {
+            await atualizarNotaService(nota)
+            emit('notaEditado', nota)
+            alert('Nota atualizada atualizado com sucesso')
+         } catch (error: unknown) {
+            if (axios.isAxiosError(error) && error.response?.status === 401 && error.response?.data?.message === 'Não autorizado') {
+               console.warn('401 ignorado ao recarregar lista.')
+            } else {
+               throw error
+            }
+         }
+
+      } else {
+         const res = await criarNota(nota)
+         console.log(res)
+         emit('notaCriado', res)
+         alert('Nova nota criada: ' + (res.nome || formularioPrincipal.desc_nota))
+      }
+
+   } catch (error) {
+      alert('Erro ao salvar usuário: ' + error)
+   }
+}
 
 </script>
