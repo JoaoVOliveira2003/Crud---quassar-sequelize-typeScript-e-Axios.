@@ -34,7 +34,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import type { NotaInterface } from "../../interfaces/notaInterface"
 
 const props = defineProps<{
-  valor: number
+  valor: number | null
 }>()
 
 /**

@@ -4,8 +4,8 @@ export const conecta = new Sequelize("testes", "postgres", "senha", {
   dialect: "postgres",
   // logging: false,
 
-  logging: (sql, queryObject) => {
-    console.log("SQL:", sql);
-    // console.log("PARAMS:", queryObject.bind);
-  },
+  // logging: (sql, queryObject) => {
+  //   console.log("SQL:", sql);
+  //   console.log("PARAMS:", queryObject.bind);
+  // },
 });

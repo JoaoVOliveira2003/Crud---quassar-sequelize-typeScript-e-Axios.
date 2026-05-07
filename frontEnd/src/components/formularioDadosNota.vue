@@ -6,16 +6,14 @@
 
          <q-input filled v-model="formularioPrincipal.desc_nota" label="Texto da nota" placeholder="Texto" clearable
             hide-bottom-space lazy-rules autogrow />
-
          <div class="row q-col-gutter-md q-mt-sm">
-
             <div class="col-12 col-md-6">
                <div class="text-subtitle2 text-grey-8 q-mb-sm">
                   Finalizada
                </div>
 
                <div class="bg-grey-2 rounded-borders q-pa-sm">
-                  <TrueOrFalse v-model="formularioPrincipal.finalizado_nota"/>
+                  <TrueOrFalse :valor="formularioPrincipal.finalizado_nota" v-model="formularioPrincipal.finalizado_nota" />
                </div>
             </div>
 
@@ -25,32 +23,28 @@
                </div>
 
                <div class="bg-grey-2 rounded-borders q-pa-sm">
-                  <farolComponente :valor="0" v-model="formularioPrincipal.id_tipo_nota" @update:valor="1" />
+                  <farolComponente :valor="formularioPrincipal.id_tipo_nota" v-model="formularioPrincipal.id_tipo_nota" @update:valor="1" />
                </div>
             </div>
-
          </div>
-
-
          <div class="row justify-end">
             <q-btn color="primary" label="Gravar" type="submit" icon="save" unelevated />
          </div>
-
       </q-form>
    </q-card-section>
 
 </template>
 
 <script setup lang="ts">
-import { reactive,watch } from 'vue';
+import { reactive, watch } from 'vue';
 import farolComponente from '../components/farolComponente.vue';
 import TrueOrFalse from '../components/trueOrFalse.vue';
 import selectNomeIdUsuario from '../components/selectNomeIdUsuario.vue';
 import type { NotaInterface } from '../../interfaces/notaInterface'
 
 const props = defineProps<{
-  botaoVoltar?: boolean,
-  nota?: NotaInterface | null
+   botaoVoltar?: boolean,
+   nota?: NotaInterface | null
 }>()
 
 function preencherFormulario(nota: NotaInterface) {
@@ -61,20 +55,20 @@ function preencherFormulario(nota: NotaInterface) {
 }
 
 const formularioPrincipal = reactive({
-  usuarioSelecionado: null as number | null,
-  desc_nota: '' as string,
-  finalizado_nota: false as boolean,
-  id_tipo_nota: null as number | null,
+   usuarioSelecionado: null as number | null,
+   desc_nota: '' as string,
+   finalizado_nota: false as boolean,
+   id_tipo_nota: null as number | null,
 })
 
 
 watch(() => props.nota, (usuarioExistente) => {
-  if (usuarioExistente) {
-    preencherFormulario(usuarioExistente)
-  }
-  else {
-   //  limparFormularioPrincipal()
-  }
+   if (usuarioExistente) {
+      preencherFormulario(usuarioExistente)
+   }
+   else {
+      //  limparFormularioPrincipal()
+   }
 }, { immediate: true })
 
 </script>

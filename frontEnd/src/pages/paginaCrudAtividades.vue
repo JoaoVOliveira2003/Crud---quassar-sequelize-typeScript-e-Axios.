@@ -11,7 +11,7 @@
         </q-card-section>
 
         <q-card-section>
-<formularioDadosNota :nota="notaParaEditar" />
+          <formularioDadosNota :nota="notaParaEditar" />
         </q-card-section>
       </q-card>
     </q-dialog>
