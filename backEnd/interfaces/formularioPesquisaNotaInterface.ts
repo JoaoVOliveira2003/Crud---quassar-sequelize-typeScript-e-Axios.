@@ -1,6 +1,7 @@
 export interface formularioPesquisaNotaInterface {
-  id_usuario?: number;
-  desc_nota?:string;
-  id_tipo_nota?:number;
-  finalizada_nota?:boolean;
+  desc_nota: string;
+  finalizada_nota: boolean | null; // ← adicione "| null"
+  id_tipo_nota: number | null;
+  id_nota: number | null;
+  id_usuario: number | null;
 }

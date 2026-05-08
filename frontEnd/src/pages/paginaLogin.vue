@@ -31,7 +31,6 @@ const router = useRouter()
 import axios from 'axios';
 import InputSenha from '../components/inputSenha.vue'
 
-
 const formulario = reactive({
     email: '',
     senha: ''

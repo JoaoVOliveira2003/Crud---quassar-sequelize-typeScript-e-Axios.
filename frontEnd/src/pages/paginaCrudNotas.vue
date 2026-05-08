@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
 
 
-<componenteDePesquisaNota @pesquisar="fazerPesquisa"/>
+    <componenteDePesquisaNota @pesquisar="fazerPesquisa" />
     <br>
     <q-dialog v-model="modalAdicionarAberto">
       <q-card style="min-width: 900px">
@@ -14,7 +14,8 @@
         </q-card-section>
 
         <q-card-section>
-          <formularioDadosNota :nota="notaParaEditar" @notaCriado="atualizarFormulario" @notaEditado="atualizarFormulario" />
+          <formularioDadosNota :nota="notaParaEditar" @notaCriado="atualizarFormulario"
+            @notaEditado="atualizarFormulario" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -43,14 +44,14 @@
       <template v-slot:body-cell-finalizada="props">
         <q-td align="center">
           <TrueOrFalse v-model="props.row.finalizada_nota"
-            @atualizarFinalizada="(valor: boolean) => atualizarFinalizada(props.row, valor)" />
+            @atualizarFinalizada="(valor: boolean | null) => atualizarFinalizada(props.row, valor ?? false)" />
         </q-td>
       </template>
 
       <template v-slot:body-cell-prioridade="props">
         <q-td align="center">
-          <farolComponente v-model="props.row.id_tipo_nota" @atualizar="(id) => atualizarPrioridade(props.row, id)" />
-
+          <farolComponente v-model="props.row.id_tipo_nota"
+            @atualizar="(id) => atualizarPrioridade(props.row, id ?? 0)" />
         </q-td>
       </template>
 
@@ -80,18 +81,18 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import type { NotaInterface } from '../../interfaces/notaInterface'
-import { carregarNotas } from '../../services/Notas/listarNotas'
-import { deletarNota } from '../../services/Notas/deletarNota'
-import { buscarNotasFiltrados } from '../../services/Notas/listarNotaServiceFiltrados'
-import type { formularioPesquisaNotaInterface} from '../../interfaces/formularioPesquisaNotaInterface'
-import ModalDeletar from '../components/modalDeletar.vue';
-import farolComponente from "../components/farolComponente.vue"
-import TrueOrFalse from "../components/trueOrFalse.vue"
-import formularioDadosNota from "../components/formularioDadosNota.vue"
-import { atualizarNotaService } from '../../services/Notas/atualizarNota'
 import { useQuasar } from 'quasar'
-import componenteDePesquisaNota  from 'src/components/componenteDePesquisaNota.vue'
+import type { NotaInterface } from '../../interfaces/notaInterface'
+import type { formularioPesquisaNotaInterface } from '../../interfaces/formularioPesquisaNotaInterface'
+import { carregarNotas } from '../../services/Notas/listarNotas'
+import { buscarNotasFiltrados } from '../../services/Notas/listarNotaServiceFiltrados'
+import { deletarNota } from '../../services/Notas/deletarNota'
+import { atualizarNotaService } from '../../services/Notas/atualizarNota'
+import ModalDeletar from '../components/modalDeletar.vue'
+import farolComponente from '../components/farolComponente.vue'
+import TrueOrFalse from '../components/trueOrFalse.vue'
+import formularioDadosNota from '../components/formularioDadosNota.vue'
+import componenteDePesquisaNota from 'src/components/componenteDePesquisaNota.vue'
 
 const $q = useQuasar()
 
@@ -178,4 +179,4 @@ async function fazerPesquisa(filtros: formularioPesquisaNotaInterface) {
   notas.value = await buscarNotasFiltrados(filtros);
 }
 
-</script> 
+</script>
