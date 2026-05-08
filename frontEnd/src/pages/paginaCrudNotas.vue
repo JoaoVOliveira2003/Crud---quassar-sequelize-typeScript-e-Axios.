@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
 
 
-<componenteDePesquisaNota/>
+<componenteDePesquisaNota @pesquisar="fazerPesquisa"/>
     <br>
     <q-dialog v-model="modalAdicionarAberto">
       <q-card style="min-width: 900px">
@@ -83,17 +83,17 @@ import { ref, onMounted } from 'vue'
 import type { NotaInterface } from '../../interfaces/notaInterface'
 import { carregarNotas } from '../../services/Notas/listarNotas'
 import { deletarNota } from '../../services/Notas/deletarNota'
+import { buscarNotasFiltrados } from '../../services/Notas/listarNotaServiceFiltrados'
+import type { formularioPesquisaNotaInterface} from '../../interfaces/formularioPesquisaNotaInterface'
 import ModalDeletar from '../components/modalDeletar.vue';
 import farolComponente from "../components/farolComponente.vue"
 import TrueOrFalse from "../components/trueOrFalse.vue"
 import formularioDadosNota from "../components/formularioDadosNota.vue"
 import { atualizarNotaService } from '../../services/Notas/atualizarNota'
 import { useQuasar } from 'quasar'
-
 import componenteDePesquisaNota  from 'src/components/componenteDePesquisaNota.vue'
 
 const $q = useQuasar()
-
 
 import type { QTableColumn } from 'quasar'
 
@@ -173,4 +173,9 @@ async function atualizarFinalizada(row: NotaInterface, valor: boolean) {
     $q.notify({ message: 'Erro ao atualizar!', color: 'negative', position: 'bottom', timeout: 2000 })
   }
 }
-</script>
+
+async function fazerPesquisa(filtros: formularioPesquisaNotaInterface) {
+  notas.value = await buscarNotasFiltrados(filtros);
+}
+
+</script> 

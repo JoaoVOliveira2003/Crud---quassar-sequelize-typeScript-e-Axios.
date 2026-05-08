@@ -11,5 +11,4 @@ export interface NotaInterface {
     id: number;
     nome: string;
   };
-
 }

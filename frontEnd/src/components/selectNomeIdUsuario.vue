@@ -1,6 +1,6 @@
 <template>
   <q-select class="q-mt-5 q-mb-5" filled :options="usuarios" v-model="internalValue" label="Selecione usuario"
-    option-label="nome" option-value="id" emit-value map-options />
+    option-label="nome" option-value="id" emit-value map-options clearable />
 </template>
 
 <script setup lang="ts">
@@ -23,14 +23,13 @@ watch(() => props.modelValue, (val) => {
   internalValue.value = val
 })
 
-
 watch(internalValue, (val) => {
   emit('update:modelValue', val)
 })
 
 onMounted(async () => {
   usuarios.value = await carregarUsuariosIdNome()
-  internalValue.value = props.modelValue 
+  internalValue.value = props.modelValue
 })
 
 </script>

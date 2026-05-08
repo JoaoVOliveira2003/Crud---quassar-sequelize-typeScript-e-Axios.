@@ -3,7 +3,7 @@
       <div class="row q-col-gutter-md">
          <div class="col-12 col-md-6">
             <p class="field-label">Usuário</p>
-            <selectNomeIdUsuario v-model="formularioPesquisa.usuarioSelecionado" />
+            <selectNomeIdUsuario v-model="formularioPesquisa.id_usuario" />
          </div>
 
          <div class="col-12 col-md-6">
@@ -18,12 +18,12 @@
 
          <div class="col-12 col-md-6">
             <p class="field-label">Farol</p>
-            <farolComponente v-model="formularioPesquisa.id_tipo_nota" />
+            <farolComponente v-model="formularioPesquisa.id_tipo_nota" :mostrar-limpar="true" />
          </div>
 
          <div class="col-12 col-md-6">
             <p class="field-label">Status</p>
-            <TrueOrFalse v-model="formularioPesquisa.finalizado_nota" />
+            <TrueOrFalse v-model="formularioPesquisa.finalizada_nota" :permitir-nulo="true" />
          </div>
       </div>
 
@@ -45,9 +45,8 @@ import selectNomeIdUsuario from '../components/selectNomeIdUsuario.vue'
 const emit = defineEmits<{ pesquisar: [payload: typeof formularioPesquisa] }>()
 
 const estadoInicial = {
-   usuarioSelecionado: null as number | null,
    desc_nota: '' as string,
-   finalizado_nota: false as boolean,
+   finalizada_nota: null as boolean | null,
    id_tipo_nota: null as number | null,
    id_nota: null as number | null,
    id_usuario: null as number | null,

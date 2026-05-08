@@ -129,7 +129,6 @@ const formularioLocal = reactive({
     email: '',
     novaSenha: '',
     id_tipo_usuario: 0,
-
 })
 
 watch(() => props.modeloAberto, (abriu) => {

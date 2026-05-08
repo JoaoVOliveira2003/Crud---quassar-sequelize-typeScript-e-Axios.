@@ -1,12 +1,12 @@
 <template>
-  <div class="row no-wrap q-gutter-sm" style="min-width: 68px;">
+  <div class="row no-wrap q-gutter-sm" >
 
     <q-btn
       square
       size="sm"
       :color="valorInterno === true ? 'positive' : 'grey-4'"
       :text-color="valorInterno === true ? 'white' : 'dark'"
-      @click="valorInterno = true"
+      @click="toggle(true)"
     >
       ✔
     </q-btn>
@@ -16,7 +16,7 @@
       size="sm"
       :color="valorInterno === false ? 'negative' : 'grey-4'"
       :text-color="valorInterno === false ? 'white' : 'dark'"
-      @click="valorInterno = false"
+      @click="toggle(false)"
     >
       ✖
     </q-btn>
@@ -28,16 +28,25 @@
 import { ref, watch } from 'vue'
 
 const props = defineProps<{
-  modelValue: boolean
+  modelValue: boolean | null  
+  permitirNulo?: boolean
 }>()
 
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean]
-  'atualizarFinalizada': [value: boolean]
+  'update:modelValue': [value: boolean | null]  
+  'atualizarFinalizada': [value: boolean | null]
 }>()
 
+const valorInterno = ref<boolean | null>(props.modelValue ?? null)
 
-const valorInterno = ref(props.modelValue)
+function toggle(valor: boolean) {
+  if (valorInterno.value === valor && props.permitirNulo !== false) {
+    valorInterno.value = null
+  } else {
+    valorInterno.value = valor
+  }
+}
+
 
 watch(() => props.modelValue, (novo) => {
   valorInterno.value = novo
@@ -45,7 +54,6 @@ watch(() => props.modelValue, (novo) => {
 
 watch(valorInterno, (novo) => {
   emit('update:modelValue', novo)
-  emit('atualizarFinalizada',novo)
-
+  emit('atualizarFinalizada', novo)
 })
 </script>

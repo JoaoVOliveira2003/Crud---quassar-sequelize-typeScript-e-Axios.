@@ -76,9 +76,6 @@ export class notaQuery {
     }
   }
 
-
-
-
   async getNotasFiltradas(filtros: formularioPesquisaNotaInterface) {
     try {
       const where: any = {};
@@ -97,8 +94,14 @@ export class notaQuery {
         where.id_tipo_nota = filtros.id_tipo_nota;
       }
 
-      if (filtros.finalizada_nota !== undefined) {
-        where.finalizada_nota = filtros.finalizada_nota;
+      if (filtros.finalizada_nota !== null) {
+        if (filtros.finalizada_nota === true) {
+          where.finalizada_nota = true;
+        } else if (filtros.finalizada_nota === false) {
+          where.finalizada_nota = false;
+        }  else {
+          where.finalizada_nota = null;
+        }
       }
 
       return await NotaSchema.findAll({

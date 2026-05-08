@@ -4,9 +4,8 @@
     <q-btn round unelevated size="sm" :style="{ backgroundColor: corAtual }">
       <q-popup-proxy transition-show="scale" transition-hide="scale">
         <div class="row q-pa-sm q-gutter-sm bg-white">
-
-          <q-btn v-for="cor in cores" :key="cor.id_tipo_nota!" round size="sm"
-            :style="{ backgroundColor: cor.id_hex_Cor! }" @click="selecionarCor(cor.id_tipo_nota!)" />
+          <q-btn v-for="cor in cores" :key="cor.id_tipo_nota!" round size="sm" :style="{ backgroundColor: cor.id_hex_Cor! }" @click="selecionarCor(cor.id_tipo_nota!)" />
+         <q-btn round size="sm" v-if="props.mostrarLimpar !== false" icon="close" color="grey-4" text-color="dark" @click="selecionarCor(null)" />
 
         </div>
       </q-popup-proxy>
@@ -22,12 +21,14 @@ import type { NotaInterface } from "../../interfaces/notaInterface"
 
 const props = defineProps<{
   modelValue: number | null
+  mostrarLimpar?: boolean
 }>()
 
 const emit = defineEmits<{
-  'update:modelValue': [value: number]
-  'atualizar': [value: number]
+  'update:modelValue': [value: number | null]  // ← adiciona null
+  'atualizar': [value: number | null]
 }>()
+
 
 
 const valorInterno = ref(props.modelValue)
@@ -41,11 +42,12 @@ watch(() => props.modelValue, (novo) => {
   valorInterno.value = novo
 })
 
-function selecionarCor(id: number) {
+function selecionarCor(id: number | null) {  // ← aceita null
   valorInterno.value = id
   emit('update:modelValue', id)
   emit('atualizar', id)
 }
+
 
 const corAtual = computed(() => {
   const tipo = cores.value.find(c => c.id_tipo_nota === valorInterno.value)

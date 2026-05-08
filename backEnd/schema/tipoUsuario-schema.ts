@@ -18,7 +18,6 @@ export const TipoUsuarioSchema = conecta.define(
     as: "usuarios",
   });
 };
-
 export class TipoUsuarioQuery {
   schema() {
     return TipoUsuarioSchema;

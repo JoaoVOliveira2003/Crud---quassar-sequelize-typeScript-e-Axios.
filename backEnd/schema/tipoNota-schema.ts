@@ -18,8 +18,6 @@ export const TipoNotaSchema = conecta.define(
     foreignKey: "id_tipo_usuario",
     as: "usuarios_nota",
   });
-  
-
 };
 
 export class TipoNotaQuery {

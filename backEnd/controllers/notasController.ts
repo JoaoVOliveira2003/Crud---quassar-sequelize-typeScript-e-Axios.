@@ -4,13 +4,11 @@ import { salvarNota } from "../services/nota-salvar-service";
 import { deletarNotaService } from "../services/nota-deletar-service"
 import { atualizarNotaService } from "../services/nota-atualizar-service"
 import { getTodasNotasFiltradas } from "../services/nota-get-filtrado-service";
-import { formularioPesquisaNotaInterface  } from "../interfaces/formularioPesquisaNotaInterface";
-
 
 export namespace notasController {
 
    export async function getNotas(_req: Request, res: Response) {
-      try {         
+      try {
          const notas = await getTodasNotas();
          res.json(notas);
       } catch (error: any) {
@@ -62,8 +60,8 @@ export namespace notasController {
 
    export async function getNotaFiltrado(req: Request, res: Response) {
       try {
-         const filtros = req.body.filtro as formularioPesquisaNotaInterface;
-         const retorno = await getTodasNotasFiltradas(filtros) ;
+         const filtros = req.body;
+         const retorno = await getTodasNotasFiltradas(filtros);
          res.json(retorno);
       } catch (error: any) {
          console.error(error);

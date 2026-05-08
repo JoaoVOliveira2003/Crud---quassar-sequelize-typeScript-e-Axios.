@@ -1,4 +1,4 @@
 export interface formularioPesquisaInterface {
   nome?: string;
-  tipoUsuario?: number;
+  tipoUsuario: number | null; 
 }

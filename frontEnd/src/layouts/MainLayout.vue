@@ -1,24 +1,17 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-    <!-- HEADER -->
     <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-
-        <!-- BOTÃO HAMBURGUER -->
         <q-btn flat dense round icon="menu" @click="drawer = !drawer" />
-
         <q-toolbar-title class="text-weight-bold">
           Projeto de estudo
         </q-toolbar-title>
-
         <q-btn flat round dense icon="account_circle" @click="verUsuario()" />
         <q-btn flat round dense icon="logout"  @click="sair()"/>
-
       </q-toolbar>
     </q-header>
 
-    <!-- MENU LATERAL -->
     <q-drawer v-model="drawer" show-if-above bordered :width="240" class="bg-grey-1">
       <q-list padding>
 
@@ -49,7 +42,6 @@
       </q-list>
     </q-drawer>
 
-    <!-- CONTEÚDO -->
     <q-page-container>
       <router-view />
     </q-page-container>

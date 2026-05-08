@@ -48,11 +48,7 @@
           clearable hide-bottom-space :rules="regras.login.email" autocomplete="email" />
       </div>
 
-
-      <!-- :rules="regras.usuario.novaSenha" :disable="valorId_tipo_usuario !== 1"  -->
-
       <div class="col">
-
         <InputSenha 
         v-model="formularioPrincipal.senha" 
         label="Senha"
