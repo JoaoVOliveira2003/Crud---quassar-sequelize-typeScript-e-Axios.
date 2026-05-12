@@ -99,7 +99,7 @@ export class notaQuery {
           where.finalizada_nota = true;
         } else if (filtros.finalizada_nota === false) {
           where.finalizada_nota = false;
-        }  else {
+        } else {
           where.finalizada_nota = null;
         }
       }
@@ -116,6 +116,16 @@ export class notaQuery {
         order: [["id_nota", "DESC"]],
       });
 
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async countNotas(id: number) {
+    try {
+      return await NotaSchema.count({
+        where: { id_usuario: id }
+      });
     } catch (error) {
       throw error;
     }

@@ -7,6 +7,8 @@ import { getTodosUsuariosFiltrados } from "../services/usuario-get-filtrado-serv
 import { getVerificarTipoUsuario } from "../services/usuario-get-verificar-tipo-service";
 import { getUsuariosIdNome as getUsuariosDadosIdNome} from "../services/usuario-get-IdNome-service";
 import jwt from "jsonwebtoken";
+import { countNotas } from '../services/notas-countNotas-service'
+
 
 export namespace usuarioController {
   export async function getUsuarios(req: Request, res: Response) {
@@ -60,19 +62,29 @@ export namespace usuarioController {
     }
   }
 
-  export async function deletarUsuario(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-      const retorno = await deletarUsuarioService(id);
-      res.json(retorno);
-    } catch (error: any) {
-      console.error(error);
-      res.status(500).json({
-        erro: "Erro ao deletar usuário e endereço",
-        detalhes: error.message,
+export async function deletarUsuario(req: Request, res: Response) {
+  try {
+    const id = Number(req.params.id);
+    const nNotas = await countNotas(id);
+
+    if (nNotas > 0) {
+      return res.json({
+        mensagem: 'não pode apagar pois tem notas'
       });
     }
+
+    const retorno = await deletarUsuarioService(id);
+    return res.json(retorno);
+
+  } catch (error: any) {
+    console.error(error);
+
+    return res.status(500).json({
+      mensagem: "Erro ao deletar usuário e endereço",
+      detalhes: error.message,
+    });
   }
+}
 
   export async function atualizarUsuario(req: Request, res: Response) {
     try {
