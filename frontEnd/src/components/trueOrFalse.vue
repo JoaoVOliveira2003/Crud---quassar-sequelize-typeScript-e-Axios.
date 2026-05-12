@@ -37,7 +37,7 @@ const emit = defineEmits<{
   'atualizarFinalizada': [value: boolean | null]
 }>()
 
-const valorInterno = ref<boolean | null>(props.modelValue ?? null)
+const valorInterno = ref<boolean | null>(props.modelValue ?? false)
 
 function toggle(valor: boolean) {
   if (valorInterno.value === valor && props.permitirNulo !== false) {

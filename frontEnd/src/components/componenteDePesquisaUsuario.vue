@@ -2,7 +2,9 @@
   <div class="pesquisa-card">
 
     <div class="row q-col-gutter-md">
+      
       <div class="col-12 col-md-6">
+
         <p class="field-label">Nome</p>
         <q-input filled dense v-model="formularioPesquisa.nome" placeholder="Buscar por nome..." clearable
           hide-bottom-space>
@@ -10,6 +12,7 @@
             <q-icon name="search" />
           </template>
         </q-input>
+        
       </div>
 
       <div class="col-12 col-md-6">

@@ -23,12 +23,9 @@
     <q-table title="Usuários" :rows="usuarios" :columns="colunas" row-key="id">
       <template v-slot:body-cell-acoes="props">
         <q-td align="center">
-          <q-btn color="primary" class="q-mr-sm" size="sm" @click="abrirModalEditar(props.row)">
-            Editar
+          <q-btn color="primary" class="q-mr-sm" icon="edit" size="sm" @click="abrirModalEditar(props.row)">
           </q-btn>
-          <q-btn color="negative" size="sm" @click="abrirModalDeletar(props.row)">
-            Deletar
-          </q-btn>
+          <q-btn color="negative" icon="delete" size="sm" @click="abrirModalDeletar(props.row)"></q-btn>
         </q-td>
       </template>
     </q-table>
@@ -37,7 +34,7 @@
     <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :usuario="usuarioParaDeletar" @confirmarDelete="confirmarDelete" />
   </div>
 
-  <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right q-mr-xl q-mb-xl">
+  <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right  q-mb-xl">
     <q-fab-action color="blue" icon="add" label="Adicionar" @click="abrirModalAdicionar" label-position="left" />
   </q-fab>
 
@@ -108,10 +105,10 @@ async function confirmarDelete() {
   if (!usuarioParaDeletar.value) return;
 
   try {
-    await deletarUsuario(usuarioParaDeletar.value.id!);
+    const resultado = await deletarUsuario(usuarioParaDeletar.value.id!);
     await atualizarFormulario();
     modalDeletarAberto.value = false;
-    alert('Usuário deletado com sucesso');
+    alert(resultado.data.mensagem);
     usuarioParaDeletar.value = null;
   } catch (error) {
     console.error(error);

@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
 
-
     <componenteDePesquisaNota @pesquisar="fazerPesquisa" />
     <br>
     <q-dialog v-model="modalAdicionarAberto">
@@ -34,12 +33,17 @@
         </q-td>
       </template>
 
-      <template v-slot:body-cell-desc_nota="props">
-        <q-td :class="{ 'text-strike': props.row.finalizada_nota }"
-          style="max-width: 300px; white-space: normal; word-break: break-word;">
-          {{ props.row.desc_nota }}
-        </q-td>
-      </template>
+<template v-slot:body-cell-desc_nota="props">
+  <q-td
+    :class="[
+      { 'text-strike': props.row.finalizada_nota },
+      'ellipsis-2-lines'
+    ]"
+    style="max-width: 300px; white-space: normal; word-break: break-word;"
+  >
+    {{ props.row.desc_nota }}
+  </q-td>
+</template>
 
       <template v-slot:body-cell-finalizada="props">
         <q-td align="center">
@@ -57,21 +61,20 @@
 
       <template v-slot:body-cell-acoes="props">
         <q-td align="center">
-          <q-btn color="primary" class="q-mr-sm" size="sm" @click="abrirModalEditar(props.row)">
-            Editar
-          </q-btn>
+          <q-btn color="primary" icon="edit" class="q-mr-sm" size="sm" @click="abrirModalEditar(props.row)">        </q-btn>
 
-          <q-btn color="negative" size="sm" @click="abrirModalDeletar(props.row)">
-            Deletar
+          <q-btn icon="delete" color="negative" size="sm" @click="abrirModalDeletar(props.row)">
+            
           </q-btn>
         </q-td>
       </template>
 
     </q-table>
 
-    <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right q-mr-xl q-mb-xl">
+    <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right  q-mb-xl">
       <q-fab-action color="blue" icon="add" label="Adicionar" @click="abrirModalAdicionar" label-position="left" />
     </q-fab>
+
   </div>
 
   <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :nome="notaParaDeletar?.usuario?.nome ?? null"

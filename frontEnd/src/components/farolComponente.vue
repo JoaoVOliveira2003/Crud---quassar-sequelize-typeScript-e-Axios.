@@ -29,9 +29,7 @@ const emit = defineEmits<{
   'atualizar': [value: number | null]
 }>()
 
-
-
-const valorInterno = ref(props.modelValue)
+const valorInterno = ref(props.modelValue ?? 2)
 const cores = ref<NotaInterface[]>([])
 
 onMounted(async () => {
@@ -39,11 +37,11 @@ onMounted(async () => {
 })
 
 watch(() => props.modelValue, (novo) => {
-  valorInterno.value = novo
+  valorInterno.value = novo ?? 2
 })
 
-function selecionarCor(id: number | null) {  // ← aceita null
-  valorInterno.value = id
+function selecionarCor(id: number | null) { 
+  valorInterno.value = id?? 2 
   emit('update:modelValue', id)
   emit('atualizar', id)
 }

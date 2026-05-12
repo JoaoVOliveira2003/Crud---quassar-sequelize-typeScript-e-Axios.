@@ -1,39 +1,64 @@
 <template>
    <q-card-section>
-      <q-form ref="formRef" greedy @submit.prevent="createNotaTodosDados" class="q-gutter-md">
+      <q-form ref="formRef" greedy @submit.prevent="createNotaTodosDados" class="q-gutter-sm">
 
-         <selectNomeIdUsuario lazy-rules v-model="formularioPrincipal.usuarioSelecionado" :rules="regras.notas.id_usuario" />
+         <selectNomeIdUsuario lazy-rules v-model="formularioPrincipal.usuarioSelecionado"
+            :rules="regras.notas.id_usuario" />
 
-         <q-input filled v-model="formularioPrincipal.desc_nota" label="Texto da nota" placeholder="Texto" clearable
-            hide-bottom-space lazy-rules autogrow 
-            :rules="regras.notas.desc_nota"
-            />
+      <div class="row q-col-gutter-md">
+         <div class="col-6 col-md-6">
+            <p class="field-label">Título</p>
+            <q-input filled v-model="formularioPrincipal.titulo" placeholder="Buscar por título..." clearable
+               hide-bottom-space>
+               <template #prepend>
+                  <q-icon name="search" />
+               </template>
+            </q-input>
+         </div>
+
+         <div class="col-6 col-md-6">
+            <p class="field-label">Texto nota</p>
+            <q-input 
+            type="textarea" rows="1" filled v-model="formularioPrincipal.desc_nota" placeholder="Buscar por descrição..." clearable
+               hide-bottom-space>
+               <template #prepend>
+                  <q-icon name="search" />
+               </template>
+            </q-input>
+         </div>
+      </div>
+
+         <!-- <q-input filled v-model="formularioPrincipal.desc_nota" label="Texto da nota" placeholder="Texto" clearable
+            hide-bottom-space lazy-rules autogrow :rules="regras.notas.desc_nota" /> -->
+
          <div class="row q-col-gutter-md q-mt-sm">
+
             <div class="col-12 col-md-6">
-               <div class="text-subtitle2 text-grey-8 q-mb-sm">
-                  Finalizada
-               </div>
-               <div class="bg-grey-2 rounded-borders q-pa-sm">
-                  <TrueOrFalse v-model="formularioPrincipal.finalizada_nota"  :rules="regras.notas.finalizada_nota" />
-               </div>
+               <q-field filled label="Finalizada" stack-label class="campo-padrao">
+                  <template v-slot:control>
+                     <TrueOrFalse v-model="formularioPrincipal.finalizada_nota" />
+                  </template>
+               </q-field>
             </div>
 
             <div class="col-12 col-md-6">
-               <div class="text-subtitle2 text-grey-8 q-mb-sm">Nível de prioridade</div>
-
-               <div class="bg-grey-2 rounded-borders q-pa-sm">
-                  <farolComponente v-model="formularioPrincipal.id_tipo_nota" :rules="regras.notas.id_tipo_nota" />
-               </div>
+               <q-field filled label="Finalizada" stack-label class="campo-padrao">
+                  <template v-slot:control>
+                     <div class="full-width flex items-center">
+                        <farolComponente v-model="formularioPrincipal.id_tipo_nota" />
+                     </div>
+                  </template>
+               </q-field>
             </div>
+
          </div>
 
          <div class="row justify-end">
             <q-btn color="primary" label="Gravar" type="submit" icon="save" unelevated />
          </div>
-         
+
       </q-form>
    </q-card-section>
-
 </template>
 
 <script setup lang="ts">
@@ -60,8 +85,9 @@ function preencherFormulario(nota: NotaInterface) {
    formularioPrincipal.desc_nota = nota.desc_nota ?? ''
    formularioPrincipal.finalizada_nota = nota.finalizada_nota ?? false
    formularioPrincipal.id_tipo_nota = nota.id_tipo_nota ?? null
-   formularioPrincipal.id_nota = nota.id_nota ?? null        // ✅
-   formularioPrincipal.id_usuario = nota.id_usuario ?? null  // ✅
+   formularioPrincipal.id_nota = nota.id_nota ?? null        
+   formularioPrincipal.id_usuario = nota.id_usuario ?? null  
+   formularioPrincipal.titulo = nota.titulo ?? ''
 }
 
 function limparFormularioPrincipal() {
@@ -77,6 +103,7 @@ const formularioPrincipal = reactive({
    id_tipo_nota: null as number | null,
    id_nota: null as number | null,
    id_usuario: null as number | null,
+   titulo:'' as string,
 })
 
 const estadoInicial = {
@@ -86,6 +113,7 @@ const estadoInicial = {
    id_tipo_nota: null,
    id_nota: null,
    id_usuario: null,
+   titulo:null,
 };
 
 

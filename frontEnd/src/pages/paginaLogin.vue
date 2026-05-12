@@ -37,19 +37,20 @@ const formulario = reactive({
 });
 
 async function realizarLogin() {
-
     const dadosLogin: loginInterface = {
         email: formulario.email,
         senha: formulario.senha
     }
 
     try {
-         await login(dadosLogin);
+        await login(dadosLogin);
         router.push('/');
     }
     catch (error) {
+
         if (axios.isAxiosError(error)) {
             alert(error.response?.data?.erro || 'Erro na requisição');
+            
         } else {
             alert('Erro inesperado');
         }
