@@ -8,6 +8,7 @@ import { UsuarioSchema } from "./usuario-schema";
 
 export const NotaSchema = conecta.define("Usuario_notas", {
   id_nota: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
+  titulo_nota:{type: DataTypes.TEXT, allowNull: false},
   desc_nota: { type: DataTypes.TEXT, allowNull: false },
   id_tipo_nota: { type: DataTypes.INTEGER, allowNull: false },
   finalizada_nota: { type: DataTypes.BOOLEAN, allowNull: false },
@@ -49,6 +50,10 @@ export class notaQuery {
 
   async criarNota(dadosNota: NotaInterface) {
     try {
+      console.log('--------');
+      console.log(dadosNota);
+      console.log('--------');
+      
       return await NotaSchema.create(dadosNota as any)
     } catch (error) {
       return error;
@@ -84,10 +89,12 @@ export class notaQuery {
         where.id_usuario = filtros.id_usuario;
       }
 
+      if(filtros.titulo_nota){
+        where.titulo_nota = {[Op.iLike]: `%${filtros.titulo_nota}%`};
+      }
+
       if (filtros.desc_nota) {
-        where.desc_nota = {
-          [Op.like]: `%${filtros.desc_nota}%`
-        };
+        where.desc_nota = {[Op.iLike]: `%${filtros.desc_nota}%`};
       }
 
       if (filtros.id_tipo_nota) {

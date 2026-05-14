@@ -1,8 +1,8 @@
 <template>
-  <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
+  <div class="q-pa-md">
 
     <q-dialog v-model="modalAdicionarAberto">
-      <q-card style="min-width: 900px">
+      <q-card class="q-pa-md" style="width: 1000px; max-width: 95vw; max-height: 90vh;">
         <q-card-section>
           <h4 class="flex flex-center q-my-none">
             {{ usuarioParaEditar ? 'Editar usuário' : 'Inserir novo usuário' }}
@@ -20,7 +20,7 @@
     <componenteDePesquisa @pesquisar="fazerPesquisa" />
     <br>
 
-    <q-table title="Usuários" :rows="usuarios" :columns="colunas" row-key="id">
+    <q-table title="Usuários" :rows="usuarios" :columns="colunas" row-key="id" :dense="$q.screen.lt.md" wrap-cells>
       <template v-slot:body-cell-acoes="props">
         <q-td align="center">
           <q-btn color="primary" class="q-mr-sm" icon="edit" size="sm" @click="abrirModalEditar(props.row)">
@@ -30,16 +30,13 @@
       </template>
     </q-table>
 
-
     <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :usuario="usuarioParaDeletar" @confirmarDelete="confirmarDelete" />
   </div>
 
-  <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right  q-mb-xl">
+  <q-fab  color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right q-mb-xl q-mr-xl q-ma-none">
     <q-fab-action color="blue" icon="add" label="Adicionar" @click="abrirModalAdicionar" label-position="left" />
   </q-fab>
-
 </template>
-
 
 <script setup lang="ts">
 import type { QTableColumn } from 'quasar';

@@ -25,27 +25,41 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:modelValue': [value: number | null]  // ← adiciona null
+  'update:modelValue': [value: number | null]
   'atualizar': [value: number | null]
 }>()
 
-const valorInterno = ref(props.modelValue ?? 2)
+// 👇 se mostrarLimpar, inicia null; senão inicia 2
+function valorInicial(): number | null {
+  if (props.modelValue !== undefined && props.modelValue !== null) return props.modelValue
+  if (props.mostrarLimpar) return null
+  return 2
+}
+
+const valorInterno = ref<number | null>(valorInicial())
 const cores = ref<NotaInterface[]>([])
+const montado = ref(false)
 
 onMounted(async () => {
   cores.value = await carregarTiposNotas()
+  montado.value = true
 })
 
 watch(() => props.modelValue, (novo) => {
-  valorInterno.value = novo ?? 2
+  valorInterno.value = novo ?? (props.mostrarLimpar ? null : 2)
 })
 
-function selecionarCor(id: number | null) { 
-  valorInterno.value = id?? 2 
-  emit('update:modelValue', id)
-  emit('atualizar', id)
-}
+watch(valorInterno, (novo) => {
+  emit('update:modelValue', novo)
 
+  if (montado.value) {
+    emit('atualizar', novo)
+  }
+}, { immediate: true }) 
+
+function selecionarCor(id: number | null) {
+  valorInterno.value = id ?? (props.mostrarLimpar ? null : 2)
+}
 
 const corAtual = computed(() => {
   const tipo = cores.value.find(c => c.id_tipo_nota === valorInterno.value)

@@ -1,10 +1,11 @@
 <template>
-  <div class="q-pa-md" style="max-width: 1000px; margin: auto;">
+  <div class="q-pa-lg">
 
     <componenteDePesquisaNota @pesquisar="fazerPesquisa" />
     <br>
+
     <q-dialog v-model="modalAdicionarAberto">
-      <q-card style="min-width: 900px">
+      <q-card class="q-pa-lg" style="width: 1000px; max-width: 95vw; max-height: 90vh;">
         <q-card-section>
           <h4 class="flex flex-center q-my-none">
             Inserir nova nota
@@ -12,14 +13,14 @@
           <hr />
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="scroll">
           <formularioDadosNota :nota="notaParaEditar" @notaCriado="atualizarFormulario"
             @notaEditado="atualizarFormulario" />
         </q-card-section>
       </q-card>
     </q-dialog>
 
-    <q-table title="Notas" :rows="notas" :columns="colunas" row-key="id_nota">
+    <q-table title="Notas" :rows="notas" :columns="colunas" row-key="id_nota" :dense="$q.screen.lt.md" wrap-cells>
 
       <template v-slot:body-cell-id="props">
         <q-td :class="{ 'text-strike': props.row.finalizada_nota }">
@@ -33,17 +34,29 @@
         </q-td>
       </template>
 
-<template v-slot:body-cell-desc_nota="props">
-  <q-td
-    :class="[
-      { 'text-strike': props.row.finalizada_nota },
-      'ellipsis-2-lines'
-    ]"
-    style="max-width: 300px; white-space: normal; word-break: break-word;"
-  >
-    {{ props.row.desc_nota }}
-  </q-td>
-</template>
+      <template v-slot:body-cell-titulo="props">
+        <q-td style="max-width: 300px;">
+          <div :class="{ 'text-strike': props.row.finalizada_nota }" class="ellipsis-2-lines"
+            style="white-space: normal; word-break: break-word;">
+            {{ props.row.titulo_nota }}
+            <q-tooltip v-if="props.row.titulo_nota?.length > 100">
+              {{ props.row.titulo_nota }}
+            </q-tooltip>
+          </div>
+        </q-td>
+      </template>
+
+      <template v-slot:body-cell-desc_nota="props">
+        <q-td style="max-width: 300px;">
+          <div :class="{ 'text-strike': props.row.finalizada_nota }" class="ellipsis-2-lines"
+            style="white-space: normal; word-break: break-word;">
+            {{ props.row.desc_nota }}
+            <q-tooltip v-if="props.row.desc_nota?.length > 100">
+              {{ props.row.desc_nota }}
+            </q-tooltip>
+          </div>
+        </q-td>
+      </template>
 
       <template v-slot:body-cell-finalizada="props">
         <q-td align="center">
@@ -60,18 +73,17 @@
       </template>
 
       <template v-slot:body-cell-acoes="props">
-        <q-td align="center">
-          <q-btn color="primary" icon="edit" class="q-mr-sm" size="sm" @click="abrirModalEditar(props.row)">        </q-btn>
-
-          <q-btn icon="delete" color="negative" size="sm" @click="abrirModalDeletar(props.row)">
-            
-          </q-btn>
+        <q-td align="center" style="width: 120px;">
+          <div class="row no-wrap justify-center items-center q-gutter-xs">
+            <q-btn color="primary" icon="edit" size="sm" @click="abrirModalEditar(props.row)" />
+            <q-btn icon="delete" color="negative" size="sm" @click="abrirModalDeletar(props.row)" />
+          </div>
         </q-td>
       </template>
 
     </q-table>
 
-    <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right  q-mb-xl">
+    <q-fab color="blue" icon="add" active-icon="close" direction="up" class="fixed-bottom-right q-mb-xl q-mr-xl">
       <q-fab-action color="blue" icon="add" label="Adicionar" @click="abrirModalAdicionar" label-position="left" />
     </q-fab>
 
@@ -101,12 +113,12 @@ const $q = useQuasar()
 
 import type { QTableColumn } from 'quasar'
 
-const modalDeletarAberto = ref(false);
-const modalAdicionarAberto = ref(false);
+const modalDeletarAberto = ref(false)
+const modalAdicionarAberto = ref(false)
 
 const notas = ref<NotaInterface[]>([])
 const notaParaEditar = ref<NotaInterface | null>(null)
-const notaParaDeletar = ref<NotaInterface | null>(null);
+const notaParaDeletar = ref<NotaInterface | null>(null)
 
 onMounted(async () => {
   try {
@@ -119,7 +131,8 @@ onMounted(async () => {
 const colunas: QTableColumn[] = [
   { name: 'id', label: 'Id Nota', field: 'id_nota', sortable: true, align: 'left' },
   { name: 'criador', label: 'Criador', field: row => row.usuario?.nome ?? 'Sem usuário', sortable: true, align: 'left' },
-  { name: 'desc_nota', label: 'Nota', field: 'desc_nota', sortable: true, align: 'left', style: 'max-width: 300px; white-space: normal; word-break: break-word;' },
+  { name: 'titulo_nota', label: 'Título', field: 'titulo_nota', sortable: true, align: 'left', style: 'max-width: 300px; white-space: normal; word-break: break-word;' },
+  // { name: 'desc_nota', label: 'Nota', field: 'desc_nota', sortable: true, align: 'left', style: 'max-width: 300px; white-space: normal; word-break: break-word;' },
   { name: 'prioridade', label: 'Prioridade', field: 'id_tipo_nota', sortable: true, align: 'center' },
   { name: 'finalizada', label: 'Finalizada', field: 'finalizada_nota', sortable: true, align: 'center' },
   { name: 'acoes', label: 'Ações', field: () => '', align: 'center' }
@@ -131,27 +144,27 @@ function abrirModalEditar(row: NotaInterface) {
 }
 
 function abrirModalDeletar(row: NotaInterface) {
-  notaParaDeletar.value = row;
-  modalDeletarAberto.value = true;
+  notaParaDeletar.value = row
+  modalDeletarAberto.value = true
 }
 
 async function atualizarFormulario() {
-  notas.value = await carregarNotas();
-  modalAdicionarAberto.value = false;
+  notas.value = await carregarNotas()
+  modalAdicionarAberto.value = false
 }
 
 async function confirmarDelete() {
-  if (!notaParaDeletar.value) return;
+  if (!notaParaDeletar.value) return
 
   try {
-    await deletarNota(notaParaDeletar.value.id_nota!);
-    await atualizarFormulario();
-    modalDeletarAberto.value = false;
-    alert('nota deletado com sucesso');
-    notaParaDeletar.value = null;
+    await deletarNota(notaParaDeletar.value.id_nota!)
+    await atualizarFormulario()
+    modalDeletarAberto.value = false
+    alert('nota deletado com sucesso')
+    notaParaDeletar.value = null
   } catch (error) {
-    console.error(error);
-    alert('Erro ao deletar usuário');
+    console.error(error)
+    alert('Erro ao deletar usuário')
   }
 }
 
@@ -179,7 +192,6 @@ async function atualizarFinalizada(row: NotaInterface, valor: boolean) {
 }
 
 async function fazerPesquisa(filtros: formularioPesquisaNotaInterface) {
-  notas.value = await buscarNotasFiltrados(filtros);
+  notas.value = await buscarNotasFiltrados(filtros)
 }
-
 </script>

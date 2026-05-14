@@ -9,7 +9,6 @@ import { getUsuariosIdNome as getUsuariosDadosIdNome} from "../services/usuario-
 import jwt from "jsonwebtoken";
 import { countNotas } from '../services/notas-countNotas-service'
 
-
 export namespace usuarioController {
   export async function getUsuarios(req: Request, res: Response) {
     try {
@@ -35,6 +34,7 @@ export namespace usuarioController {
     try {
 
       let usuario = req.body.usuario;
+
       const token = req.cookies?.token;
 
       let id_usuario = 0;

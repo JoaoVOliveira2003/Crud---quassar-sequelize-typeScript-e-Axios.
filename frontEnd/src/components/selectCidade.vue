@@ -23,7 +23,6 @@ watch(() => props.modelValue, (val) => {
   internalValue.value = val
 })
 
-
 watch(internalValue, (val) => {
   emit('update:modelValue', val)
 })

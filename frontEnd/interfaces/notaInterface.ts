@@ -1,7 +1,7 @@
 export interface NotaInterface {
   id_nota?: number;
   desc_nota?: string;
-  titulo?:string;
+  titulo_nota?:string;
   id_tipo_nota?: number;
   id_usuario?: number;
   id_hex_Cor?: number;

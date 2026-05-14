@@ -6,7 +6,7 @@
 
         <div class="col-6 flex flex-center">
             <div style="width: 300px;">
-                <h4>Login</h4>
+                <h4 class="flex flex-center">Projeto de estudo</h4>
                 <q-form filled greedy @submit.prevent="realizarLogin()">
                     <q-input filled class="q-mb-sm" v-model="formulario.email" label="Email" />
                     <InputSenha v-model="formulario.senha" label="Senha" />
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-</template>
+</template>zzz
 <script setup lang="ts">
 import { reactive } from 'vue'
 import type { loginInterface } from '../../interfaces/loginInterface'
@@ -37,23 +37,21 @@ const formulario = reactive({
 });
 
 async function realizarLogin() {
-    const dadosLogin: loginInterface = {
-        email: formulario.email,
-        senha: formulario.senha
-    }
+  const dadosLogin: loginInterface = {
+    email: formulario.email,
+    senha: formulario.senha
+  }
 
-    try {
-        await login(dadosLogin);
-        router.push('/');
+  try {
+    await login(dadosLogin);
+    router.push('/');
+  } catch (error) {
+    alert('Erro ao realizarLogin')
+    if (axios.isAxiosError(error)) {
+      alert(error.response?.data?.erro || 'Erro inesperado');
+    } else {
+      alert('Erro inesperado');
     }
-    catch (error) {
-
-        if (axios.isAxiosError(error)) {
-            alert(error.response?.data?.erro || 'Erro na requisição');
-            
-        } else {
-            alert('Erro inesperado');
-        }
-    }
+  }
 }
 </script>

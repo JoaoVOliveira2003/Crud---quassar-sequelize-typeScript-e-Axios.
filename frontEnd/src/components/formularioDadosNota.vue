@@ -8,7 +8,7 @@
       <div class="row q-col-gutter-md">
          <div class="col-6 col-md-6">
             <p class="field-label">Título</p>
-            <q-input filled v-model="formularioPrincipal.titulo" placeholder="Buscar por título..." clearable
+            <q-input filled v-model="formularioPrincipal.titulo_nota" placeholder="Buscar por título..." clearable
                hide-bottom-space>
                <template #prepend>
                   <q-icon name="search" />
@@ -36,7 +36,7 @@
             <div class="col-12 col-md-6">
                <q-field filled label="Finalizada" stack-label class="campo-padrao">
                   <template v-slot:control>
-                     <TrueOrFalse v-model="formularioPrincipal.finalizada_nota" />
+                     <TrueOrFalse v-model="formularioPrincipal.finalizada_nota" :iniciar-negativo="true" />
                   </template>
                </q-field>
             </div>
@@ -45,7 +45,7 @@
                <q-field filled label="Finalizada" stack-label class="campo-padrao">
                   <template v-slot:control>
                      <div class="full-width flex items-center">
-                        <farolComponente v-model="formularioPrincipal.id_tipo_nota" />
+                        <farolComponente v-model="formularioPrincipal.id_tipo_nota" class="q-mb-sm" />
                      </div>
                   </template>
                </q-field>
@@ -87,7 +87,7 @@ function preencherFormulario(nota: NotaInterface) {
    formularioPrincipal.id_tipo_nota = nota.id_tipo_nota ?? null
    formularioPrincipal.id_nota = nota.id_nota ?? null        
    formularioPrincipal.id_usuario = nota.id_usuario ?? null  
-   formularioPrincipal.titulo = nota.titulo ?? ''
+   formularioPrincipal.titulo_nota = nota.titulo_nota ?? ''
 }
 
 function limparFormularioPrincipal() {
@@ -103,7 +103,7 @@ const formularioPrincipal = reactive({
    id_tipo_nota: null as number | null,
    id_nota: null as number | null,
    id_usuario: null as number | null,
-   titulo:'' as string,
+   titulo_nota:'' as string,
 })
 
 const estadoInicial = {
@@ -113,7 +113,7 @@ const estadoInicial = {
    id_tipo_nota: null,
    id_nota: null,
    id_usuario: null,
-   titulo:null,
+   titulo_nota:null,
 };
 
 
@@ -131,6 +131,7 @@ async function createNotaTodosDados() {
    const nota: NotaInterface = {
       desc_nota: formularioPrincipal.desc_nota,
       id_tipo_nota: formularioPrincipal.id_tipo_nota!,
+      titulo_nota:formularioPrincipal.titulo_nota,
       id_usuario: formularioPrincipal.usuarioSelecionado!,
       finalizada_nota: formularioPrincipal.finalizada_nota,
       ...(formularioPrincipal.id_nota && { id_nota: formularioPrincipal.id_nota }),

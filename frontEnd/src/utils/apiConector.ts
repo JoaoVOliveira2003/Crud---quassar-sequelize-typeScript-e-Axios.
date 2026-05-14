@@ -10,7 +10,9 @@ let redirecionando = false
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const isLoginRoute = error.config?.url?.includes('/login/realizarLogin');
+
+    if (error.response?.status === 401 && !isLoginRoute) {
       localStorage.removeItem('token')
       localStorage.removeItem('usuario')
       sessionStorage.clear()

@@ -6,7 +6,7 @@
       <div class="col-12 col-md-6">
 
         <p class="field-label">Nome</p>
-        <q-input filled dense v-model="formularioPesquisa.nome" placeholder="Buscar por nome..." clearable
+        <q-input filled v-model="formularioPesquisa.nome" placeholder="Buscar por nome..." clearable
           hide-bottom-space>
           <template #prepend>
             <q-icon name="search" />

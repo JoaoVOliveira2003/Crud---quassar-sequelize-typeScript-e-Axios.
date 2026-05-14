@@ -119,8 +119,10 @@ export class UsuarioQuery {
   async getUsuariosFiltrados(filtros: formularioPesquisaInterface) {
     try {
       const where: any = {};
+
       if (filtros.nome) {
-        where.nome = { [Op.like]: `%${filtros.nome}%` };
+        // where.nome = { [Op.like]: `%${filtros.nome}%` };
+        where.nome = { [Op.iLike]: `%${filtros.nome}%` };
       }
 
       const whereTipoUsuario: any = {};

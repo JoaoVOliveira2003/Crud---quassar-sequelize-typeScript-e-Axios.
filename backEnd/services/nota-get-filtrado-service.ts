@@ -6,6 +6,9 @@ export async function getTodasNotasFiltradas(
   filtros: formularioPesquisaNotaInterface,
   nota_query: notaQuery = new notaQuery(),
 ) {
+  console.log('------')
+  console.log(filtros)
+  console.log('------')
   const notas = await nota_query.getNotasFiltradas(filtros);
   return notas;
 }
