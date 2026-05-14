@@ -2,12 +2,12 @@
   <div class="row no-wrap q-gutter-sm">
 
     <q-btn square size="sm" :color="valorInterno === true ? 'positive' : 'grey-4'"
-      :text-color="valorInterno === true ? 'white' : 'dark'" @click="toggle(true)">
+      :text-color="valorInterno === true ? 'white' : 'dark'" @click="alterar(true)">
       ✔
     </q-btn>
 
     <q-btn square size="sm" :color="valorInterno === false ? 'negative' : 'grey-4'"
-      :text-color="valorInterno === false ? 'white' : 'dark'" @click="toggle(false)">
+      :text-color="valorInterno === false ? 'white' : 'dark'" @click="alterar(false)">
       ✖
     </q-btn>
 
@@ -37,7 +37,7 @@ function valorInicial(): boolean | null {
 const valorInterno = ref<boolean | null>(valorInicial())
 const montado = ref(false)
 
-function toggle(valor: boolean) {
+function alterar(valor: boolean) {
   if (valorInterno.value === valor && props.permitirNulo !== false) {
     valorInterno.value = null
   } else {

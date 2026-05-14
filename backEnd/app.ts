@@ -32,7 +32,6 @@ app.use(express.json());
 
 const db = { UsuarioSchema, EnderecoSchema, CidadeSchema,LoginSchema,TipoUsuarioSchema,TipoNotaSchema,NotaSchema };
 
-
 (Object.values(db) as any).forEach((schema: any) => {
   if (schema.associate) {
     schema.associate(db);
@@ -46,6 +45,5 @@ app.use("/tiposUsuarios/",routerTipoUsuarios);
 app.use("/usuarioLogado/",routerUsuarioLogado);
 app.use("/notas",routerNotas);
 app.use("/tiposNota/",routerTipoNota);
-
 
 export default app;

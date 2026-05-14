@@ -9,10 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import formularioDadosUsuario from '../components/formularioDadosUsuario.vue';
-import { useRouter } from 'vue-router'
-const router = useRouter()
-// function passarTela(){
-//   router.push('/login')
-// }
+  import formularioDadosUsuario from '../components/formularioDadosUsuario.vue';
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-lg">
-
     <componenteDePesquisaNota @pesquisar="fazerPesquisa" />
     <br>
 
@@ -34,14 +33,11 @@
         </q-td>
       </template>
 
-      <template v-slot:body-cell-titulo="props">
+      <template v-slot:body-cell-titulo_nota="props">
         <q-td style="max-width: 300px;">
           <div :class="{ 'text-strike': props.row.finalizada_nota }" class="ellipsis-2-lines"
             style="white-space: normal; word-break: break-word;">
             {{ props.row.titulo_nota }}
-            <q-tooltip v-if="props.row.titulo_nota?.length > 100">
-              {{ props.row.titulo_nota }}
-            </q-tooltip>
           </div>
         </q-td>
       </template>
@@ -89,9 +85,7 @@
 
   </div>
 
-  <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :nome="notaParaDeletar?.usuario?.nome ?? null"
-    @confirmarDelete="confirmarDelete" />
-
+  <ModalDeletar v-model:modeloAberto="modalDeletarAberto" :nome="notaParaDeletar?.usuario?.nome ?? null" @confirmarDelete="confirmarDelete" />
 </template>
 
 <script setup lang="ts">
@@ -131,7 +125,7 @@ onMounted(async () => {
 const colunas: QTableColumn[] = [
   { name: 'id', label: 'Id Nota', field: 'id_nota', sortable: true, align: 'left' },
   { name: 'criador', label: 'Criador', field: row => row.usuario?.nome ?? 'Sem usuário', sortable: true, align: 'left' },
-  { name: 'titulo_nota', label: 'Título', field: 'titulo_nota', sortable: true, align: 'left', style: 'max-width: 300px; white-space: normal; word-break: break-word;' },
+  { name: 'titulo_nota', label: 'Título', field: 'titulo_nota', sortable: true, align: 'left', },
   // { name: 'desc_nota', label: 'Nota', field: 'desc_nota', sortable: true, align: 'left', style: 'max-width: 300px; white-space: normal; word-break: break-word;' },
   { name: 'prioridade', label: 'Prioridade', field: 'id_tipo_nota', sortable: true, align: 'center' },
   { name: 'finalizada', label: 'Finalizada', field: 'finalizada_nota', sortable: true, align: 'center' },

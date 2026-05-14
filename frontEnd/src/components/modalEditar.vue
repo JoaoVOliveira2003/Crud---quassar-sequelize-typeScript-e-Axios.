@@ -57,8 +57,7 @@
                         </div>
 
                         <div class="col">
-                            <InputSenha v-model="formularioLocal.novaSenha" label="Nova senha (opcional)"
-                                :rules="regras.usuario.novaSenha" :disable="valorId_tipo_usuario !== 1" />
+                            <InputSenha v-model="formularioLocal.novaSenha" label="Nova senha (opcional)" :rules="regras.usuario.novaSenha" :disable="valorId_tipo_usuario !== 1" />
                         </div>
                     </div>
 
@@ -103,7 +102,6 @@ watch(() => props.modeloAberto, (abriu) => {
         }
     }
 })
-
 
 async function init() {
     const usuario = await listarDadosUsuarioLogado();

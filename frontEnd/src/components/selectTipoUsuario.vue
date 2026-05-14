@@ -1,6 +1,6 @@
 <template>
   <q-select class="q-mt-5 q-mb-5" filled :options="cidades" v-model="internalValue" label="Selecione tipo de usuario"
-    option-label="desc_tipo_usuario" option-value="id_tipo_usuario" emit-value map-options />
+    clearable option-label="desc_tipo_usuario" option-value="id_tipo_usuario" emit-value map-options />
 </template>
 
 <script setup lang="ts">

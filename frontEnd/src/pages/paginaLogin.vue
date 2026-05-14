@@ -1,17 +1,16 @@
 <template>
     <div class="row" style="height: 100vh;">
-        <div class="col-6 bg-grey-2 flex flex-center">
+        <div v-if="!$q.screen.xs" class="col-6 bg-grey-2 flex flex-center">
             <img style="" src="../assets/imgs/shallows.png" alt="">
         </div>
 
-        <div class="col-6 flex flex-center">
+        <div :class="$q.screen.xs ? 'col-12 flex flex-center' : 'col-6 flex flex-center'">
             <div style="width: 300px;">
                 <h4 class="flex flex-center">Projeto de estudo</h4>
                 <q-form filled greedy @submit.prevent="realizarLogin()">
-                    <q-input filled class="q-mb-sm" v-model="formulario.email" label="Email" />
-                    <InputSenha v-model="formulario.senha" label="Senha" />
-
-                    <q-btn label="Entrar" color="primary" class="full-width q-mt-md" type="submit" />
+                    <q-input filled class="q-mb-sm" v-model="formulario.email" label="Email" :rules="regras.login.email"/>
+                    <InputSenha v-model="formulario.senha" label="Senha" :rules="regras.login.senha"/>
+                    <q-btn label="Entrar" color="primary" class="full-width q-mt-md" type="submit"  />
                     <div class="text-center q-mt-md">
                         <router-link to="/cadastro">Não possuo conta</router-link>
                     </div>
@@ -20,11 +19,12 @@
             </div>
         </div>
     </div>
-</template>zzz
+</template>
+
 <script setup lang="ts">
 import { reactive } from 'vue'
 import type { loginInterface } from '../../interfaces/loginInterface'
-// import { validarObjeto } from 'src/utils/validacao/validacao'
+import { regras } from '../utils/validacao/regras'
 import { login } from '../../services/Login/realizarLogin'
 import { useRouter } from 'vue-router'
 const router = useRouter()

@@ -7,7 +7,6 @@
           <h4 class="flex flex-center q-my-none">
             {{ usuarioParaEditar ? 'Editar usuário' : 'Inserir novo usuário' }}
           </h4>
-          <hr />
         </q-card-section>
         <q-card-section>
           <!-- <formularioDadosUsuario @usuarioCriado="atualizarFormulario" /> -->
@@ -64,7 +63,7 @@ const modalAdicionarAberto = ref(false);
 const colunas: QTableColumn[] = [
   { name: 'id', label: 'ID', field: 'id', sortable: true, align: 'left' },
   { name: 'nome', label: 'Nome', field: 'nome', sortable: true, align: 'left' },
-  { name: 'tipoUsuario', label: 'Tipo usuário', field: 'tipoUsuario', format: (val) => val?.desc_tipo_usuario, sortable: true, align: 'left' },
+  {name:'tipoUsuario',label: 'Tipo usuário',field: (row) => row.tipoUsuario?.desc_tipo_usuario,sortable: true,align: 'left',},
   { name: 'acoes', label: 'Ações', align: 'center', field: () => '' }
 ];
 

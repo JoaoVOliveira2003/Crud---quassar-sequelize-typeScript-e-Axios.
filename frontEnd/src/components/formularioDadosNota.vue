@@ -2,14 +2,12 @@
    <q-card-section>
       <q-form ref="formRef" greedy @submit.prevent="createNotaTodosDados" class="q-gutter-sm">
 
-         <selectNomeIdUsuario lazy-rules v-model="formularioPrincipal.usuarioSelecionado"
-            :rules="regras.notas.id_usuario" />
+      <selectNomeIdUsuario lazy-rules v-model="formularioPrincipal.usuarioSelecionado" :rules="regras.notas.id_usuario" />
 
       <div class="row q-col-gutter-md">
          <div class="col-6 col-md-6">
             <p class="field-label">Título</p>
-            <q-input filled v-model="formularioPrincipal.titulo_nota" placeholder="Buscar por título..." clearable
-               hide-bottom-space>
+            <q-input filled v-model="formularioPrincipal.titulo_nota" placeholder="Buscar por título..." clearable hide-bottom-space :rules="regras.notas.titulo_nota">
                <template #prepend>
                   <q-icon name="search" />
                </template>
@@ -18,9 +16,7 @@
 
          <div class="col-6 col-md-6">
             <p class="field-label">Texto nota</p>
-            <q-input 
-            type="textarea" rows="1" filled v-model="formularioPrincipal.desc_nota" placeholder="Buscar por descrição..." clearable
-               hide-bottom-space>
+            <q-input :rules="regras.notas.desc_nota" type="textarea" rows="1" filled v-model="formularioPrincipal.desc_nota" placeholder="Buscar por descrição..." clearable hide-bottom-space>
                <template #prepend>
                   <q-icon name="search" />
                </template>
@@ -28,15 +24,11 @@
          </div>
       </div>
 
-         <!-- <q-input filled v-model="formularioPrincipal.desc_nota" label="Texto da nota" placeholder="Texto" clearable
-            hide-bottom-space lazy-rules autogrow :rules="regras.notas.desc_nota" /> -->
-
          <div class="row q-col-gutter-md q-mt-sm">
-
             <div class="col-12 col-md-6">
                <q-field filled label="Finalizada" stack-label class="campo-padrao">
                   <template v-slot:control>
-                     <TrueOrFalse v-model="formularioPrincipal.finalizada_nota" :iniciar-negativo="true" />
+                     <TrueOrFalse v-model="formularioPrincipal.finalizada_nota" :iniciar-negativo="true" :rules="regras.notas.finalizada_nota" />
                   </template>
                </q-field>
             </div>
@@ -45,12 +37,11 @@
                <q-field filled label="Finalizada" stack-label class="campo-padrao">
                   <template v-slot:control>
                      <div class="full-width flex items-center">
-                        <farolComponente v-model="formularioPrincipal.id_tipo_nota" class="q-mb-sm" />
+                        <farolComponente v-model="formularioPrincipal.id_tipo_nota" class="q-mb-sm" :rules="regras.notas.prioridade" />
                      </div>
                   </template>
                </q-field>
             </div>
-
          </div>
 
          <div class="row justify-end">

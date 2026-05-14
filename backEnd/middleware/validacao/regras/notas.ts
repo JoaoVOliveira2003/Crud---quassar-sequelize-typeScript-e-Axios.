@@ -19,4 +19,8 @@ export const regrasNotas: RegrasObjeto = {
     (valor) => !!valor || 'Escreva o estado da nota',
     (valor) => typeof valor === 'boolean' || 'Valor invalidao',
   ],
+    prioridade: [
+    (valor) => !!valor || 'Preencha a prioridade',
+    (valor) => typeof valor === 'number' && valor > 0 || 'Valor inválido',
+  ],
 };

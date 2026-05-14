@@ -1,32 +1,23 @@
 <template>
    <div class="pesquisa-card">
+  <h6 class="q-mt-none q-mb-sm">Pesquisar nota</h6>   
 
       <div class="row q-col-gutter-md">
          <div class="col-12 col-md-6">
-            <p class="field-label">Usuário</p>
             <selectNomeIdUsuario v-model="formularioPesquisa.id_usuario" />
          </div>
 
          <div class="col-12 col-md-6">
             <p class="field-label text-center">Prioridade</p>
-
             <div class="row justify-center">
                <farolComponente v-model="formularioPesquisa.id_tipo_nota" :mostrar-limpar="true" />
             </div>
          </div>
-
-         <!-- <div class="col-12 col-md-4">
-            <p class="field-label text-center">Status</p>
-            <div class="row justify-center">
-               <TrueOrFalse v-model="formularioPesquisa.finalizada_nota" :permitir-nulo="true" />
-            </div>
-         </div> -->
       </div>
 
-      <div class="row q-col-gutter-md">
-         <div class="col-6 col-md-6">
-            <p class="field-label">Título</p>
-            <q-input filled v-model="formularioPesquisa.titulo_nota" placeholder="Buscar por título..." clearable
+      <div class="row q-col-gutter-md q-mt-xs">
+         <div class="col-12 col-md-6 ">
+            <q-input label="Título" filled v-model="formularioPesquisa.titulo_nota" placeholder="Buscar por título..." clearable
                hide-bottom-space>
                <template #prepend>
                   <q-icon name="search" />

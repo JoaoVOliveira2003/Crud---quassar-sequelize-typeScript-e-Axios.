@@ -1,16 +1,13 @@
 <template>
   <div class="relative-position">
-
     <q-btn round unelevated size="sm" :style="{ backgroundColor: corAtual }">
       <q-popup-proxy transition-show="scale" transition-hide="scale">
         <div class="row q-pa-sm q-gutter-sm bg-white">
           <q-btn v-for="cor in cores" :key="cor.id_tipo_nota!" round size="sm" :style="{ backgroundColor: cor.id_hex_Cor! }" @click="selecionarCor(cor.id_tipo_nota!)" />
          <q-btn round size="sm" v-if="props.mostrarLimpar !== false" icon="close" color="grey-4" text-color="dark" @click="selecionarCor(null)" />
-
         </div>
       </q-popup-proxy>
     </q-btn>
-
   </div>
 </template>
 
@@ -29,7 +26,6 @@ const emit = defineEmits<{
   'atualizar': [value: number | null]
 }>()
 
-// 👇 se mostrarLimpar, inicia null; senão inicia 2
 function valorInicial(): number | null {
   if (props.modelValue !== undefined && props.modelValue !== null) return props.modelValue
   if (props.mostrarLimpar) return null
