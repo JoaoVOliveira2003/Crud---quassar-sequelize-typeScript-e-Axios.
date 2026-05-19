@@ -23,6 +23,17 @@ const routes: RouteRecordRaw[] = [
       }
     ]
   },
+    {
+    path: '/dashboard',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/paginaDashboards.vue'),
+        meta: { requiresAuth: true }
+      }
+    ]
+  },
   {
     path: '/login',
     // component: () => import('layouts/MainLayout.vue'),
@@ -33,6 +44,7 @@ const routes: RouteRecordRaw[] = [
     // component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/paginaRegistro.vue') }],
   },
+  
 ];
 
 export default routes;

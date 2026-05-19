@@ -1,14 +1,15 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import { conecta } from "../config/conecta";
 import { Op } from "sequelize";
 import { NotaInterface } from "../interfaces/notaInterface";
 import { formularioPesquisaNotaInterface } from "../interfaces/formularioPesquisaNotaInterface";
 import { UsuarioSchema } from "./usuario-schema";
+import { TipoNotaSchema } from "./tipoNota-schema";
 
 
 export const NotaSchema = conecta.define("Usuario_notas", {
   id_nota: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
-  titulo_nota:{type: DataTypes.TEXT, allowNull: false},
+  titulo_nota: { type: DataTypes.TEXT, allowNull: false },
   desc_nota: { type: DataTypes.TEXT, allowNull: false },
   id_tipo_nota: { type: DataTypes.INTEGER, allowNull: false },
   finalizada_nota: { type: DataTypes.BOOLEAN, allowNull: false },
@@ -23,6 +24,7 @@ export const NotaSchema = conecta.define("Usuario_notas", {
 
   this.belongsTo(schema.TipoNotaSchema, {
     foreignKey: "id_tipo_nota",
+    as: "tipoNota"
   });
 };
 
@@ -50,10 +52,6 @@ export class notaQuery {
 
   async criarNota(dadosNota: NotaInterface) {
     try {
-      console.log('--------');
-      console.log(dadosNota);
-      console.log('--------');
-      
       return await NotaSchema.create(dadosNota as any)
     } catch (error) {
       return error;
@@ -89,12 +87,12 @@ export class notaQuery {
         where.id_usuario = filtros.id_usuario;
       }
 
-      if(filtros.titulo_nota){
-        where.titulo_nota = {[Op.iLike]: `%${filtros.titulo_nota}%`};
+      if (filtros.titulo_nota) {
+        where.titulo_nota = { [Op.iLike]: `%${filtros.titulo_nota}%` };
       }
 
       if (filtros.desc_nota) {
-        where.desc_nota = {[Op.iLike]: `%${filtros.desc_nota}%`};
+        where.desc_nota = { [Op.iLike]: `%${filtros.desc_nota}%` };
       }
 
       if (filtros.id_tipo_nota) {
@@ -137,4 +135,96 @@ export class notaQuery {
       throw error;
     }
   }
+
+  async getCountFinalizadaNotas() {
+    try {
+      return await NotaSchema.findAll({
+        attributes: [
+          [Sequelize.col("finalizada_nota"), "tipo"],
+          [
+            Sequelize.cast(
+              Sequelize.fn("COUNT", Sequelize.col("id_nota")),
+              "INTEGER"  // <- força retorno numérico
+            ),
+            "quantidade"
+          ]
+
+        ],
+        group: ["finalizada_nota"],
+        raw: true,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getCountPrioridadeNotas() {
+    try {
+      return await NotaSchema.findAll({
+        attributes: [
+          [Sequelize.col("tipoNota.desc_tipo_nota"), "tipo"],
+          [
+            Sequelize.cast(
+              Sequelize.fn("COUNT", Sequelize.col("id_nota")),
+              "INTEGER"  // <- força retorno numérico
+            ),
+            "quantidade"
+          ]
+
+        ],
+        include: [
+          {
+            model: TipoNotaSchema,
+            as: "tipoNota",
+            attributes: [],
+            required: true
+          },
+        ],
+        group: ["tipoNota.desc_tipo_nota"],
+        raw: true,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getRadarPrioridadeFinalizacao() {
+    try {
+      return await NotaSchema.findAll({
+        attributes: [
+          [Sequelize.col("tipoNota.desc_tipo_nota"), "tipo"],
+          ["finalizada_nota", "tipo2"],
+          [
+            Sequelize.cast(
+              Sequelize.fn("COUNT", Sequelize.col("id_nota")),
+              "INTEGER"  // <- força retorno numérico
+            ),
+            "quantidade"
+          ]
+
+        ],
+        include: [
+          {
+            model: TipoNotaSchema,
+            as: "tipoNota",
+            attributes: [],
+            required: true
+          }
+        ],
+        group: [
+          "tipoNota.desc_tipo_nota",
+          "finalizada_nota"
+        ],
+        order: [["tipo2", "DESC"]],
+        raw: true
+      });
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+
+
 }

@@ -5,12 +5,13 @@ import { deletarUsuarioService } from "../services/usuario-deletar-service";
 import { atualizarUsuarioService } from "../services/usuario-atualizar-service";
 import { getTodosUsuariosFiltrados } from "../services/usuario-get-filtrado-service";
 import { getVerificarTipoUsuario } from "../services/usuario-get-verificar-tipo-service";
+import { getTiposUsuarios} from "../services/usuario-get-count-tipo-usuario"
 import { getUsuariosIdNome as getUsuariosDadosIdNome} from "../services/usuario-get-IdNome-service";
 import jwt from "jsonwebtoken";
-import { countNotas } from '../services/notas-countNotas-service'
+import { countNotas } from '../services/nota-countNotas-service'
 
 export namespace usuarioController {
-  export async function getUsuarios(req: Request, res: Response) {
+  export async function getUsuarios(res: Response) {
     try {
       const usuarios = await getTodosUsuarios();
       res.json(usuarios);
@@ -135,4 +136,15 @@ export async function deletarUsuario(req: Request, res: Response) {
     const tipo = req.usuario?.id_tipo_usuario;
     res.json({ id, tipo });
   }
+
+  export async function getCountTipoUsuario(res: Response) {
+    try {
+      const countTiposUsuario = await getTiposUsuarios();
+      res.json(countTiposUsuario);
+    } catch (error: any) {
+      console.log(error);
+      res.status(500).json({ erro: error.message }); ''
+    }    
+  }
+
 }

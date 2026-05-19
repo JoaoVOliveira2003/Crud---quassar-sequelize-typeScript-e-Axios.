@@ -12,4 +12,10 @@ routerNotas.delete("/deletarNota/:id",async (req, res) => await notasController.
 routerNotas.put("/editarNota/:id",async (req, res) => await notasController.atualizarNota(req, res));
 routerNotas.post("/filtroNotas/", async (req, res) => await notasController.getNotaFiltrado(req, res));
 
+routerNotas.get("/countTiposFinalizada", async (req, res) => await notasController.getCountTipoFinalizada(res));
+routerNotas.get("/countPrioridades", async (req, res) => await notasController.getCountPrioridades(res));
+routerNotas.get("/countRadarPrioridades", async (req, res) => await notasController.countRadarPrioridades(res));
+
+
+
 export default routerNotas;

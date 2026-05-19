@@ -5,6 +5,10 @@ import { deletarNotaService } from "../services/nota-deletar-service"
 import { atualizarNotaService } from "../services/nota-atualizar-service"
 import { getTodasNotasFiltradas } from "../services/nota-get-filtrado-service";
 
+import { countFinalizadaNotas } from "../services/nota-count-finalizada-service";
+import { countPrioridadesNotas } from "../services/nota-count-prioridade-service"
+import { countRadarPrioridadesFinalizadaNotas } from "../services/nota-count-radarPrioridade-service";
+
 export namespace notasController {
 
    export async function getNotas(_req: Request, res: Response) {
@@ -72,4 +76,33 @@ export namespace notasController {
       }
    }
 
+   export async function getCountTipoFinalizada(res: Response) {
+      try {
+         const countFinalizadaNota = await countFinalizadaNotas();
+         res.json(countFinalizadaNota);
+      } catch (error: any) {
+         console.log(error);
+         res.status(500).json({ erro: error.message }); ''
+      }
+   }
+
+   export async function getCountPrioridades(res: Response) {
+      try {
+         const countPrioridades = await countPrioridadesNotas();
+         res.json(countPrioridades);
+      } catch (error: any) {
+         console.log(error);
+         res.status(500).json({ erro: error.message }); ''
+      }
+   }
+
+   export async function countRadarPrioridades(res: Response) {
+      try {
+         const count = await countRadarPrioridadesFinalizadaNotas();
+         res.json(count);
+      } catch (error: any) {
+         console.log(error);
+         res.status(500).json({ erro: error.message }); ''
+      }
+   }
 }

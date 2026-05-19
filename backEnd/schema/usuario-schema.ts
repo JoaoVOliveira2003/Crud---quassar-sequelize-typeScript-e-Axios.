@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes,Sequelize } from "sequelize";
 import { conecta } from "../config/conecta";
 import { EnderecoSchema } from "./endereco-schema.js";
 import { CidadeSchema } from "./cidade-shema.js";
@@ -178,4 +178,33 @@ export class UsuarioQuery {
       throw error;
     }
   }
+
+
+  async getCountTiposUsuarios() {
+    try {
+      return await UsuarioSchema.findAll({
+        attributes: [
+          [Sequelize.col("tipoUsuario.desc_tipo_usuario"), "tipo"],
+          [Sequelize.fn("COUNT", Sequelize.col("Usuario.id")), "quantidade"],
+        ],
+        include: [
+          {
+            model: TipoUsuarioSchema,
+            as: "tipoUsuario",
+            attributes: [],
+            required: true
+          },
+        ],
+        group: ["tipoUsuario.desc_tipo_usuario"],
+        raw: true,
+
+      })
+    } catch (error) {
+      throw error;
+    }
+  }  
+
+
+
 }
+

@@ -8,7 +8,7 @@
           Projeto de estudo
         </q-toolbar-title>
         <q-btn flat round dense icon="account_circle" @click="verUsuario()" />
-        <q-btn flat round dense icon="logout"  @click="sair()"/>
+        <q-btn flat round dense icon="logout" @click="sair()" />
       </q-toolbar>
     </q-header>
 
@@ -36,6 +36,16 @@
 
           <q-item-section>
             Lista de notas
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/dashboard">
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+
+          <q-item-section>
+            Dahsboards
           </q-item-section>
         </q-item>
 

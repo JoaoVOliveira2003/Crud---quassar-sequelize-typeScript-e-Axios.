@@ -70,7 +70,6 @@ const colunas: QTableColumn[] = [
 onMounted(async () => {
   try {
     usuarios.value = await carregarUsuarios();
-
     const token = await listarDadosUsuarioLogado();
 
     localStorage.setItem('dados_usuario', JSON.stringify({

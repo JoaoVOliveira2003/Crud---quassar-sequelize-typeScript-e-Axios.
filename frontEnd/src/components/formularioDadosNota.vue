@@ -59,8 +59,8 @@ import TrueOrFalse from '../components/trueOrFalse.vue';
 import selectNomeIdUsuario from '../components/selectNomeIdUsuario.vue';
 import type { NotaInterface } from '../../interfaces/notaInterface'
 import axios from 'axios'
-import { atualizarNotaService } from '../../services/Notas/atualizarNota'
-import { criarNota } from '../../services/Notas/criarNota'
+import { atualizarNotaService } from '../../services/Notas/atualizarNotaService'
+import { criarNota } from '../../services/Notas/criarNotaService'
 import { regras } from 'src/utils/validacao/regras'
 
 
