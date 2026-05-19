@@ -130,9 +130,11 @@ onMounted(async () => {
       data: {
         labels: dadosFinalizadas.map(item => String(item.tipo) === 'true' ? 'Feito' : 'Incompleto'),
         datasets: [
-          {
+          
+        {
             label: 'Notas',
             data: dadosFinalizadas.map(item => item.quantidade),
+            
             borderColor: '#42A5F5',
             backgroundColor: '#90CAF9',
             tension: 0.4
@@ -164,26 +166,35 @@ onMounted(async () => {
     GRÁFICO PIZZA
   */
 
-  if (graficoPizza.value) {
-    const chart = new Chart(graficoPizza.value, {
-      type: 'pie',
-      data: {
-        labels: dadosPrioridade.map(item => traduzirPrioridade(String(item.tipo))),
-        datasets: [
-          {
-            data: dadosPrioridade.map(item => item.quantidade),
-            backgroundColor: dadosPrioridade.map(item => corPrioridade(String(item.tipo)))
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    })
-    chartInstances.push(chart)
-  }
+if (graficoPizza.value) {
+  const chart = new Chart(graficoPizza.value, {
+    type: 'pie',
+    data: {
+      labels: dadosPrioridade.map(item =>
+        traduzirPrioridade(String(item.tipo))
+      ),
 
+      datasets: [
+        {
+          data: dadosPrioridade.map(item => item.quantidade),
+
+          backgroundColor: dadosPrioridade.map(item =>
+            corPrioridade(String(item.tipo))
+          ),
+
+          hoverOffset: 15
+        }
+      ]
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  })
+
+  chartInstances.push(chart)
+}
   /*
     GRÁFICO RADAR
   */

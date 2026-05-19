@@ -9,7 +9,7 @@ routerUsuarios.get('/usuariosIdNome', async (req,res)=> await usuarioController.
 routerUsuarios.get("/filtroUsuarios/", async (req, res) => await usuarioController.getUsuariosFiltrado(req, res));
 // routerUsuarios.use(validarBody) 
 routerUsuarios.post("/criarUsuario/", 
-// validarTokenNaoObrigatorioMiddleware,
+// validarTokenNaoObrigatorioMiddleware ,
 async (req, res) => await usuarioController.gravarUsuario(req, res));
 
 // routerUsuarios.use(validarTokenObrigatorioMiddleware)
