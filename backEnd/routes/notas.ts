@@ -16,6 +16,4 @@ routerNotas.get("/countTiposFinalizada", async (req, res) => await notasControll
 routerNotas.get("/countPrioridades", async (req, res) => await notasController.getCountPrioridades(res));
 routerNotas.get("/countRadarPrioridades", async (req, res) => await notasController.countRadarPrioridades(res));
 
-
-
 export default routerNotas;

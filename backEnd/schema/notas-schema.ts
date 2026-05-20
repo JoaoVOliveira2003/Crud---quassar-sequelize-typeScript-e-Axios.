@@ -141,14 +141,7 @@ export class notaQuery {
       return await NotaSchema.findAll({
         attributes: [
           [Sequelize.col("finalizada_nota"), "tipo"],
-          [
-            Sequelize.cast(
-              Sequelize.fn("COUNT", Sequelize.col("id_nota")),
-              "INTEGER"  // <- força retorno numérico
-            ),
-            "quantidade"
-          ]
-
+          [Sequelize.cast(Sequelize.fn("COUNT", Sequelize.col("id_nota")),"INTEGER"),"quantidade"]
         ],
         group: ["finalizada_nota"],
         raw: true,
@@ -163,14 +156,7 @@ export class notaQuery {
       return await NotaSchema.findAll({
         attributes: [
           [Sequelize.col("tipoNota.desc_tipo_nota"), "tipo"],
-          [
-            Sequelize.cast(
-              Sequelize.fn("COUNT", Sequelize.col("id_nota")),
-              "INTEGER"  // <- força retorno numérico
-            ),
-            "quantidade"
-          ]
-
+          [Sequelize.cast(Sequelize.fn("COUNT", Sequelize.col("id_nota")),"INTEGER"),"quantidade"]
         ],
         include: [
           {
@@ -194,14 +180,7 @@ export class notaQuery {
         attributes: [
           [Sequelize.col("tipoNota.desc_tipo_nota"), "tipo"],
           ["finalizada_nota", "tipo2"],
-          [
-            Sequelize.cast(
-              Sequelize.fn("COUNT", Sequelize.col("id_nota")),
-              "INTEGER"  // <- força retorno numérico
-            ),
-            "quantidade"
-          ]
-
+          [Sequelize.cast(Sequelize.fn("COUNT", Sequelize.col("id_nota")),"INTEGER"),"quantidade"]
         ],
         include: [
           {
@@ -223,8 +202,4 @@ export class notaQuery {
       throw error;
     }
   }
-
-
-
-
 }
