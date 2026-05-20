@@ -55,12 +55,45 @@
         <q-card rounded class="shadow-2">
           <q-card-section class="row items-center q-pb-none q-pt-md q-px-md">
             <q-icon name="donut_large" size="28px" color="green-7" class="q-mr-sm" />
-            <div class="text-h6 text-weight-bold text-grey-9">Prioridade x Finalização</div>
+            <div class="text-h6 text-weight-bold text-grey-9">Prioridade x Pendente</div>
           </q-card-section>
           <q-separator inset class="q-mt-sm q-mb-xs" />
           <q-card-section class="bg-grey-1 q-pa-md rounded-borders">
             <div style="position: relative; height: 320px;">
               <canvas ref="graficoRadar"></canvas>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+
+
+      <!-- Donnut -->
+      <div class="col-12 col-md-6">
+        <q-card rounded class="shadow-2">
+          <q-card-section class="row items-center q-pb-none q-pt-md q-px-md">
+            <q-icon name="query_stats" size="28px" color="orange-7" class="q-mr-sm" />
+            <div class="text-h6 text-weight-bold text-grey-9">Grafico Donut</div>
+          </q-card-section>
+          <q-separator inset class="q-mt-sm q-mb-xs" />
+          <q-card-section class="bg-grey-1 q-pa-md rounded-borders">
+            <div style="position: relative; height: 320px;">
+              <canvas ref="graficoDonut"></canvas>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <!-- Donnut -->
+      <div class="col-12 col-md-6">
+        <q-card rounded class="shadow-2">
+          <q-card-section class="row items-center q-pb-none q-pt-md q-px-md">
+            <q-icon name="query_stats" size="28px" color="orange-7" class="q-mr-sm" />
+            <div class="text-h6 text-weight-bold text-grey-9">Barras agrupadas</div>
+          </q-card-section>
+          <q-separator inset class="q-mt-sm q-mb-xs" />
+          <q-card-section class="bg-grey-1 q-pa-md rounded-borders">
+            <div style="position: relative; height: 320px;">
+              <canvas ref="graficoBarrasAgrupadas"></canvas>
             </div>
           </q-card-section>
         </q-card>
@@ -88,6 +121,8 @@ const graficoBarras = ref<HTMLCanvasElement | null>(null)
 const graficoLinha = ref<HTMLCanvasElement | null>(null)
 const graficoPizza = ref<HTMLCanvasElement | null>(null)
 const graficoRadar = ref<HTMLCanvasElement | null>(null)
+const graficoDonut = ref<HTMLCanvasElement | null>(null)
+const graficoBarrasAgrupadas = ref<HTMLCanvasElement | null>(null)
 
 // Guarda instâncias para destruir ao desmontar o componente
 const chartInstances: Chart[] = []
@@ -98,6 +133,91 @@ onMounted(async () => {
   const dadosFinalizadas: countInterface[] = await countFinalizadaNota();
   const dadosPrioridade: countInterface[] = await countPrioridadeNota();
   const dadosRadar: countRadarInterface[] = await countRadarFinalizadasPrioridades();
+
+  if (graficoBarrasAgrupadas.value) {
+
+    const completas = dadosRadar.filter(item => item.tipo2 === true)
+    const pendentes = dadosRadar.filter(item => item.tipo2 === false)
+    const prioridades = ['Verde', 'Amarelo', 'Vermelho']
+
+    const dadosFormatados = prioridades.map(prioridade => ({
+      prioridade,
+      completas: completas.find(item => item.tipo === prioridade)?.quantidade || 0,
+      pendentes: pendentes.find(item => item.tipo === prioridade)?.quantidade || 0
+    }))
+
+    const chart = new Chart(graficoBarrasAgrupadas.value, {
+      type: 'bar',
+      data: {
+        labels: dadosFormatados.map(item => traduzirPrioridade(item.prioridade)),
+
+        datasets: [
+          {
+            label: 'Concluídas',
+            data: dadosFormatados.map(item => item.completas),
+            backgroundColor: '#21BA45',
+            borderRadius: 6
+          },
+
+          {
+            label: 'Pendentes',
+            data: dadosFormatados.map(item => item.pendentes),
+            backgroundColor: '#C10015',
+            borderRadius: 6
+          }
+        ]
+      },
+
+      options: {
+        responsive: true,
+
+        plugins: {
+          title: {
+            display: true,
+            text: 'Prioridade x Status'
+          },
+
+          legend: {
+            position: 'bottom'
+          }
+        },
+
+        scales: {
+          y: {beginAtZero: true}
+        }
+      }
+    })
+    chartInstances.push(chart)
+
+  }
+
+  if (graficoDonut.value) {
+    const chart = new Chart(graficoDonut.value, {
+      type: 'doughnut',
+      data: {
+        labels: dadosPrioridade.map(item => traduzirPrioridade(String(item.tipo))),
+        datasets: [
+          {
+            data: dadosPrioridade.map(item => item.quantidade),
+            backgroundColor: dadosPrioridade.map(item => corPrioridade(String(item.tipo))),
+            hoverOffset: 15
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: {
+            display: true,
+            text: 'Status das Notas'
+          }
+        },
+        cutout: '50%'
+      }
+    })
+    chartInstances.push(chart)
+  }
 
 
   if (graficoBarras.value) {
@@ -130,11 +250,11 @@ onMounted(async () => {
       data: {
         labels: dadosFinalizadas.map(item => String(item.tipo) === 'true' ? 'Feito' : 'Incompleto'),
         datasets: [
-          
-        {
+
+          {
             label: 'Notas',
             data: dadosFinalizadas.map(item => item.quantidade),
-            
+
             borderColor: '#42A5F5',
             backgroundColor: '#90CAF9',
             tension: 0.4
@@ -166,35 +286,35 @@ onMounted(async () => {
     GRÁFICO PIZZA
   */
 
-if (graficoPizza.value) {
-  const chart = new Chart(graficoPizza.value, {
-    type: 'pie',
-    data: {
-      labels: dadosPrioridade.map(item =>
-        traduzirPrioridade(String(item.tipo))
-      ),
+  if (graficoPizza.value) {
+    const chart = new Chart(graficoPizza.value, {
+      type: 'pie',
+      data: {
+        labels: dadosPrioridade.map(item =>
+          traduzirPrioridade(String(item.tipo))
+        ),
 
-      datasets: [
-        {
-          data: dadosPrioridade.map(item => item.quantidade),
+        datasets: [
+          {
+            data: dadosPrioridade.map(item => item.quantidade),
 
-          backgroundColor: dadosPrioridade.map(item =>
-            corPrioridade(String(item.tipo))
-          ),
+            backgroundColor: dadosPrioridade.map(item =>
+              corPrioridade(String(item.tipo))
+            ),
 
-          hoverOffset: 15
-        }
-      ]
-    },
+            hoverOffset: 15
+          }
+        ]
+      },
 
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-    }
-  })
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    })
 
-  chartInstances.push(chart)
-}
+    chartInstances.push(chart)
+  }
   /*
     GRÁFICO RADAR
   */
