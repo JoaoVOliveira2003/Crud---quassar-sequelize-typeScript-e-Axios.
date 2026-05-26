@@ -13,11 +13,9 @@ export const TipoUsuarioSchema = conecta.define(
 );
 
 (TipoUsuarioSchema as any).associate = function (schema: any) {
-  this.hasMany(schema.UsuarioSchema, {
-    foreignKey: "id_tipo_usuario",
-    as: "usuarios",
-  });
+  TipoUsuarioSchema.hasMany(schema.UsuarioSchema, { foreignKey: "id_tipo_usuario", as: "usuarios" });
 };
+
 export class TipoUsuarioQuery {
   schema() {
     return TipoUsuarioSchema;

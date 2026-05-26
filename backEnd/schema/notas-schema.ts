@@ -17,17 +17,9 @@ export const NotaSchema = conecta.define("Usuario_notas", {
 });
 
 (NotaSchema as any).associate = function (schema: any) {
-  this.belongsTo(schema.UsuarioSchema, {
-    foreignKey: "id_usuario",
-    as: "usuario"
-  });
-
-  this.belongsTo(schema.TipoNotaSchema, {
-    foreignKey: "id_tipo_nota",
-    as: "tipoNota"
-  });
+  NotaSchema.belongsTo(schema.UsuarioSchema, { foreignKey: "id_usuario", as: "usuario" });
+  NotaSchema.belongsTo(schema.TipoNotaSchema, { foreignKey: "id_tipo_nota", as: "tipoNota" });
 };
-
 export class notaQuery {
   schema() {
     return NotaSchema;

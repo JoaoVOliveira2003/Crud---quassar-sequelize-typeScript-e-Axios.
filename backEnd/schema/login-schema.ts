@@ -17,10 +17,7 @@ export const LoginSchema = conecta.define(
 );
 
 (LoginSchema as any).associate = function (schema: any) {
-  this.belongsTo(schema.UsuarioSchema, {
-    foreignKey: "id_usuario",
-    as: "usuario",
-  });
+  LoginSchema.belongsTo(schema.UsuarioSchema, { foreignKey: "id_usuario", as: "usuario" });
 };
 
 export class LoginQuery {
@@ -40,31 +37,30 @@ export class LoginQuery {
     }
   }
 
-  async realizarLogin(login: any) {
-    try {
-      const result = await LoginSchema.findAll({
-        attributes: ["id_usuario", [fn("COUNT", col("*")), "total"]],
-        where: {
-          email: login.email,
-          senha: login.senha,
-        },
-        group: ["id_usuario", "usuario.id", "usuario.id_tipo_usuario"],
-        raw: true,
-        include: [
-          {
-            model: UsuarioSchema,
-            as: "usuario",
-            required: true,
-            attributes: ["id_tipo_usuario"],
-          },
-        ],
-      });
-      return result;
-    } catch (error) {
-      console.log("ERRO:", error);
-      throw error;
-    }
-  }
+async realizarLogin(login: any) {
+  const result = await LoginSchema.findAll({
+    attributes: ["id_usuario", [fn("COUNT", col("*")), "total"]],
+    where: {
+      email: login.email,
+      senha: login.senha,
+    },
+    group: [
+      '"Login"."id_usuario"',  // ← especifica a tabela
+      '"usuario"."id"',
+      '"usuario"."id_tipo_usuario"'
+    ],
+    raw: true,
+    include: [
+      {
+        model: UsuarioSchema,
+        as: "usuario",
+        required: true,
+        attributes: ["id_tipo_usuario"],
+      },
+    ],
+  });
+  return result;
+}
 
   async deletarLogin(id: number) {
     try {

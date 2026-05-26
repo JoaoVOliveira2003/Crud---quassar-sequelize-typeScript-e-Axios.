@@ -8,7 +8,7 @@
     "test:unit": "jest tests/unitario --verbose",
     "test:integration": "jest tests/integracao --verbose",
     "dev": "tsx watch server.ts",
-    "banco": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "banco": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +36,7 @@
     }
   },
   "dependencies": {
+    "@faker-js/faker": "^10.4.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "crypto-js": "^4.2.0",

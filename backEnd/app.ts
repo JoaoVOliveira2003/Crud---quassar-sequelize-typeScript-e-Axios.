@@ -17,7 +17,6 @@ import { routerUsuarioLogado} from './routes/usuarioLogado.ts'
 import { routerNotas } from './routes/notas.ts'
 import { routerTipoNota } from './routes/tipoNota.ts'
 
-
 import cookieParser from 'cookie-parser';
 import "dotenv/config";
 

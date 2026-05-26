@@ -1,6 +1,8 @@
 import { DataTypes } from "sequelize";
 import { conecta } from "../config/conecta";
 import { enderecoInterface } from "../interfaces/enderecoInterface";
+import { UsuarioSchema } from "./usuario-schema";
+import { CidadeSchema } from "./cidade-shema";
 
 export const EnderecoSchema = conecta.define("Endereco", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -15,14 +17,8 @@ export const EnderecoSchema = conecta.define("Endereco", {
 });
 
 (EnderecoSchema as any).associate = function (schema: any) {
-  this.belongsTo(schema.UsuarioSchema, {
-    foreignKey: "id_usuario",
-  });
-
-  this.belongsTo(schema.CidadeSchema, {
-    foreignKey: "cod_cidade",
-    as: "cidade",
-  });
+  EnderecoSchema.belongsTo(schema.UsuarioSchema, { foreignKey: "id_usuario" });
+  EnderecoSchema.belongsTo(schema.CidadeSchema, { foreignKey: "cod_cidade", as: "cidade" });
 };
 
 export class EnderecoQuery {

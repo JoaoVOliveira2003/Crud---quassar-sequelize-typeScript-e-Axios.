@@ -3,6 +3,7 @@ import { conecta } from "../config/conecta";
 import { EnderecoSchema } from "./endereco-schema.js";
 import { CidadeSchema } from "./cidade-shema.js";
 import { TipoUsuarioSchema } from "./tipoUsuario-schema.js";
+import { NotaSchema } from "./notas-schema.js";
 import { DadosUsuario } from "../interfaces/usuarioInterface";
 import { formularioPesquisaInterface } from "../interfaces/formularioPesquisaInterface.js";
 import { LoginSchema } from "./login-schema.js";
@@ -19,23 +20,12 @@ export const UsuarioSchema = conecta.define("Usuario", {
 });
 
 (UsuarioSchema as any).associate = function (schema: any) {
-  this.hasOne(schema.EnderecoSchema, {
-    foreignKey: "id_usuario",
-    as: "endereco",
-  });
-  this.hasOne(schema.LoginSchema, {
-    foreignKey: "id_usuario",
-    as: "login",
-  });
-  this.belongsTo(schema.TipoUsuarioSchema, {
-    foreignKey: "id_tipo_usuario",
-    as: "tipoUsuario",
-  });
-  this.hasMany(schema.NotaSchema, {
-    foreignKey: "id_usuario",
-    as: "notaUsuario",
-  });
+  UsuarioSchema.hasOne(schema.EnderecoSchema, { foreignKey: "id_usuario", as: "endereco" });
+  UsuarioSchema.hasOne(schema.LoginSchema, { foreignKey: "id_usuario", as: "login" });
+  UsuarioSchema.belongsTo(schema.TipoUsuarioSchema, { foreignKey: "id_tipo_usuario", as: "tipoUsuario" });
+  UsuarioSchema.hasMany(schema.NotaSchema, { foreignKey: "id_usuario", as: "notaUsuario" });
 };
+
 
 export class UsuarioQuery {
   schema() {

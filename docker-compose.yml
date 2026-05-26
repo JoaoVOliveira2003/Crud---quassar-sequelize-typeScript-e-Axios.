@@ -17,7 +17,11 @@ services:
       - ./backEnd:/app
       - /app/node_modules
     environment:
-      DATABASE_URL: postgres://postgres:senha123@banco:5432/meudb
+      DB_HOST: banco
+      DB_USER: postgres
+      DB_PASS: senha123
+      DB_NAME: meudb
+      DB_PORT: 5432
     depends_on:
       - banco
 

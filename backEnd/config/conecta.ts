@@ -1,11 +1,13 @@
 import { Sequelize } from "sequelize";
-export const conecta = new Sequelize("testes", "postgres", "senha", {
-  host: "localhost",
-  dialect: "postgres",
-  logging: false,
 
-  // logging: (sql, queryObject) => {
-  //   console.log("SQL:", sql);
-  //   console.log("PARAMS:", queryObject.bind);
-  // },
-});
+export const conecta = new Sequelize(
+  process.env.DB_NAME || "testes",
+  process.env.DB_USER || "postgres",
+  process.env.DB_PASS || "senha",
+  {
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT) || 5432,
+    dialect: "postgres",
+    logging: false,
+  }
+);
