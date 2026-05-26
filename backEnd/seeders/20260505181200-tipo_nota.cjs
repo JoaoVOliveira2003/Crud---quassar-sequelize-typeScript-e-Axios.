@@ -4,9 +4,9 @@
 module.exports = {
   async up(queryInterface) {
     await queryInterface.bulkInsert('Tipo_nota', [
-      { desc_tipo_nota: 'Verde', createdAt: new Date(), updatedAt: new Date() },
-      { desc_tipo_nota: 'Amarelo', createdAt: new Date(), updatedAt: new Date() },
-      { desc_tipo_nota: 'Vermelho', createdAt: new Date(), updatedAt: new Date() },
+      { desc_tipo_nota: 'Tranquilo', createdAt: new Date(), updatedAt: new Date() },
+      { desc_tipo_nota: 'Atenção', createdAt: new Date(), updatedAt: new Date() },
+      { desc_tipo_nota: 'Urgente', createdAt: new Date(), updatedAt: new Date() },
     ]);
   },
 

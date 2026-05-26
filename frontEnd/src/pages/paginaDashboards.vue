@@ -138,7 +138,7 @@ onMounted(async () => {
 
     const completas = dadosRadar.filter(item => item.tipo2 === true)
     const pendentes = dadosRadar.filter(item => item.tipo2 === false)
-    const prioridades = ['Verde', 'Amarelo', 'Vermelho']
+    const prioridades = ['Tranquilo', 'Atenção', 'Urgente']
 
     const dadosFormatados = prioridades.map(prioridade => ({
       prioridade,
@@ -149,7 +149,7 @@ onMounted(async () => {
     const chart = new Chart(graficoBarrasAgrupadas.value, {
       type: 'bar',
       data: {
-        labels: dadosFormatados.map(item => traduzirPrioridade(item.prioridade)),
+        labels: dadosFormatados.map(item => item.prioridade),
 
         datasets: [
           {
@@ -195,7 +195,7 @@ onMounted(async () => {
     const chart = new Chart(graficoDonut.value, {
       type: 'doughnut',
       data: {
-        labels: dadosPrioridade.map(item => traduzirPrioridade(String(item.tipo))),
+        labels: dadosPrioridade.map(item => item.tipo),
         datasets: [
           {
             data: dadosPrioridade.map(item => item.quantidade),
@@ -291,7 +291,7 @@ onMounted(async () => {
       type: 'pie',
       data: {
         labels: dadosPrioridade.map(item =>
-          traduzirPrioridade(String(item.tipo))
+          item.tipo
         ),
 
         datasets: [
@@ -333,7 +333,7 @@ onMounted(async () => {
       data: {
 
         // Apenas visualmente traduzido
-        labels: labelsOriginais.map(label => traduzirPrioridade(label)),
+        labels: labelsOriginais.map(label => label),
 
         datasets: [
           {
@@ -382,25 +382,15 @@ onMounted(async () => {
 
 })
 
-// Importante: destrói os gráficos ao sair da página para evitar memory leak
 onBeforeUnmount(() => {
   chartInstances.forEach(chart => chart.destroy())
 })
 
-function traduzirPrioridade(tipo: string): string {
-  const mapa: Record<string, string> = {
-    'Vermelho': 'Urgente',
-    'Amarelo': 'Atenção',
-    'Verde': 'Tranquilo'
-  }
-  return mapa[tipo] ?? tipo
-}
-
 function corPrioridade(tipo: string): string {
   const mapa: Record<string, string> = {
-    'Vermelho': '#EF5350',
-    'Amarelo': '#FFA726',
-    'Verde': '#66BB6A'
+    'Urgente': '#EF5350',
+    'Atenção': '#FFA726',
+    'Tranquilo': '#66BB6A'
   }
   return mapa[tipo] ?? '#90A4AE'
 }
