@@ -11,7 +11,6 @@ routerUsuarios.get("/filtroUsuarios/", async (req, res) => await usuarioControll
 routerUsuarios.post("/criarUsuario/", 
 // validarTokenNaoObrigatorioMiddleware ,
 async (req, res) => await usuarioController.gravarUsuario(req, res));
-
 // routerUsuarios.use(validarTokenObrigatorioMiddleware)
 routerUsuarios.get("", async (req, res) => await usuarioController.getUsuarios(res));
 routerUsuarios.put('/atualizarUsuario/:id',async(req,res)=> await usuarioController.atualizarUsuario(req,res));

@@ -1,11 +1,10 @@
 import axios from 'axios'
+import { getRouter } from '../router/index'
 
 const api = axios.create({
   baseURL: 'http://localhost:3000',
   withCredentials: true
 })
-
-let redirecionando = false
 
 api.interceptors.response.use(
   (response) => response,
@@ -13,16 +12,8 @@ api.interceptors.response.use(
     const isLoginRoute = error.config?.url?.includes('/login/realizarLogin');
 
     if (error.response?.status === 401 && !isLoginRoute) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('usuario')
-      sessionStorage.clear()
-
-      if (!redirecionando) {
-        redirecionando = true
-        window.location.href = '/#/login'
-      }
-
-      return new Promise(() => {})
+      const router = getRouter();
+      router.push('/login');
     }
 
     return Promise.reject(error)
