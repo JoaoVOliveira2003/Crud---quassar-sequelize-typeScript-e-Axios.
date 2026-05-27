@@ -6,3 +6,7 @@ until nc -z banco 5432; do
 done
 
 echo "Banco pronto! Rodando migrations..."
+npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
+
+echo "Iniciando o servidor..."
+yarn dev
