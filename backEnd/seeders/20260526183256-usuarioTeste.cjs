@@ -16,16 +16,6 @@ module.exports = {
         criadoPor: 1,
         id_tipo_usuario: 1,
       },
-      {
-        nome: "Claudia",
-        dataDeNascimento: new Date(),
-        peso: 76,
-        altura: 1.76,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        criadoPor: 1,
-        id_tipo_usuario: 2,
-      },
     ]);
 
     await queryInterface.bulkInsert("Login", [
@@ -36,13 +26,6 @@ module.exports = {
         updatedAt: new Date(),
         id_usuario: 1,
       },
-      {
-        email: "email@gmail.com",
-        senha: CryptoJS.HmacSHA256("email","chaveSecreta").toString(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        id_usuario: 2,
-      },
     ]);
 
     await queryInterface.bulkInsert("Enderecos", [
@@ -51,14 +34,6 @@ module.exports = {
         numero: 2,
         cod_cidade: 1,
         id_usuario: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        rua: "Rua do caqui",
-        numero: 1,
-        cod_cidade: 1,
-        id_usuario: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
