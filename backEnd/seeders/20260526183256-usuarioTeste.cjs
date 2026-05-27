@@ -20,7 +20,7 @@ module.exports = {
 
     await queryInterface.bulkInsert("Login", [
       {
-        email: "email@gmail.com",
+        email: "senha@gmail.com",
         senha: CryptoJS.HmacSHA256(
           "senha",
           "chaveSecreta"
