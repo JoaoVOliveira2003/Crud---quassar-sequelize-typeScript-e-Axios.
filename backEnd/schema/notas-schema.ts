@@ -148,7 +148,8 @@ export class notaQuery {
       return await NotaSchema.findAll({
         attributes: [
           [Sequelize.col("tipoNota.desc_tipo_nota"), "tipo"],
-          [Sequelize.cast(Sequelize.fn("COUNT", Sequelize.col("id_nota")),"INTEGER"),"quantidade"]
+          [Sequelize.cast(Sequelize.fn("COUNT", Sequelize.col("id_nota")),"INTEGER"),"quantidade"],
+          [Sequelize.col("tipoNota.id_hex_Cor"), "cor"],
         ],
         include: [
           {
@@ -158,7 +159,7 @@ export class notaQuery {
             required: true
           },
         ],
-        group: ["tipoNota.desc_tipo_nota"],
+        group: ["tipoNota.desc_tipo_nota","tipoNota.id_hex_Cor"],
         raw: true,
       });
     } catch (error) {

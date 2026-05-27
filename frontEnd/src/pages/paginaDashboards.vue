@@ -83,7 +83,7 @@
         </q-card>
       </div>
 
-      <!-- Donnut -->
+      <!-- Barras agrupadas -->
       <div class="col-12 col-md-6">
         <q-card rounded class="shadow-2">
           <q-card-section class="row items-center q-pb-none q-pt-md q-px-md">
@@ -155,14 +155,14 @@ onMounted(async () => {
           {
             label: 'Concluídas',
             data: dadosFormatados.map(item => item.completas),
-            backgroundColor: '#21BA45',
+            backgroundColor: '#2E7D32',
             borderRadius: 6
           },
 
           {
             label: 'Pendentes',
             data: dadosFormatados.map(item => item.pendentes),
-            backgroundColor: '#C10015',
+            backgroundColor: '#C62828',
             borderRadius: 6
           }
         ]
@@ -170,6 +170,7 @@ onMounted(async () => {
 
       options: {
         responsive: true,
+        maintainAspectRatio: false,
 
         plugins: {
           title: {
@@ -199,13 +200,13 @@ onMounted(async () => {
         datasets: [
           {
             data: dadosPrioridade.map(item => item.quantidade),
-            backgroundColor: dadosPrioridade.map(item => corPrioridade(String(item.tipo))),
+            backgroundColor: dadosPrioridade.map(item => item.cor),
             hoverOffset: 15
           }
         ]
       },
       options: {
-        responsive: true,
+        responsive: true,maintainAspectRatio: false,
         plugins: {
           legend: { position: 'bottom' },
           title: {
@@ -218,7 +219,6 @@ onMounted(async () => {
     })
     chartInstances.push(chart)
   }
-
 
   if (graficoBarras.value) {
     const chart = new Chart(graficoBarras.value, {
@@ -290,17 +290,13 @@ onMounted(async () => {
     const chart = new Chart(graficoPizza.value, {
       type: 'pie',
       data: {
-        labels: dadosPrioridade.map(item =>
-          item.tipo
-        ),
+        labels: dadosPrioridade.map(item =>item.tipo),
 
         datasets: [
           {
             data: dadosPrioridade.map(item => item.quantidade),
 
-            backgroundColor: dadosPrioridade.map(item =>
-              corPrioridade(String(item.tipo))
-            ),
+            backgroundColor: dadosPrioridade.map(item =>item.cor),
 
             hoverOffset: 15
           }
@@ -324,7 +320,6 @@ onMounted(async () => {
     const finalizadas = dadosRadar.filter(item => item.tipo2 === true)
     const pendentes = dadosRadar.filter(item => item.tipo2 === false)
 
-    // Labels ORIGINAIS
     const labelsOriginais = [...new Set(dadosRadar.map(item => item.tipo))]
 
     const chart = new Chart(graficoRadar.value, {
@@ -385,14 +380,5 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   chartInstances.forEach(chart => chart.destroy())
 })
-
-function corPrioridade(tipo: string): string {
-  const mapa: Record<string, string> = {
-    'Urgente': '#EF5350',
-    'Atenção': '#FFA726',
-    'Tranquilo': '#66BB6A'
-  }
-  return mapa[tipo] ?? '#90A4AE'
-}
 
 </script>
