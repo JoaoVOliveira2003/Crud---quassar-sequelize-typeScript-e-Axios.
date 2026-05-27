@@ -58,7 +58,7 @@ module.exports = {
         rua: "Rua do caqui",
         numero: 1,
         cod_cidade: 1,
-        id_usuario: 1,
+        id_usuario: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

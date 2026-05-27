@@ -144,7 +144,6 @@ async function createNotaTodosDados() {
 
       } else {
          const res = await criarNota(nota)
-         console.log(res)
          emit('notaCriado', res)
          alert('Nova nota criada: ' + (res.nome || formularioPrincipal.desc_nota))
       }

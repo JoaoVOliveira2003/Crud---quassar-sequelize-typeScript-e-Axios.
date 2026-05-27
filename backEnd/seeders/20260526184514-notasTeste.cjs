@@ -18,7 +18,7 @@ module.exports = {
         desc_nota: "Estudar Sequelize por 2 horas",
         id_tipo_nota: 2,
         finalizada_nota: false,
-        id_usuario: 1,
+        id_usuario: 2,
         titulo_nota: "Meta de estudo",
         createdAt: new Date(),
         updatedAt: new Date(),
