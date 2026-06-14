@@ -5,8 +5,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { listarCidadeService } from '../../services/Cidades/listarCidadeService'
-import type { Cidade } from '../../interfaces/cidadeInterface'
+import { listarCidadeService } from '../../services/Cidades/listarCIdadeService'
+import type { CidadeInterface } from '../../interfaces/cidadeInterface'
 
 const props = defineProps<{
   modelValue: number | null
@@ -16,7 +16,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: number | null]
 }>()
 
-const cidades = ref<Cidade[]>([])
+const cidades = ref<CidadeInterface[]>([])
 const internalValue = ref<number | null>(props.modelValue)
 
 watch(() => props.modelValue, (val) => {
