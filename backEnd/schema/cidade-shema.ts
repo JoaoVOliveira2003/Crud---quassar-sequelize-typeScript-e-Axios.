@@ -11,11 +11,19 @@ export const CidadeSchema = conecta.define("Cidade", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  cod_estado: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 (CidadeSchema as any).associate = function (schema: any) {
   this.hasMany(schema.EnderecoSchema, {
     foreignKey: "cod_cidade",
+  });
+
+  this.belongsTo(schema.EstadoSchema, {
+    foreignKey: "cod_estado",
   });
 };
 
@@ -27,5 +35,9 @@ export class CidadeQuery {
   //Cara,se vc quiser fazer os where,like da vida, por favor utilize o Op !!!
   async getTodasCidades() {
     return await CidadeSchema.findAll();
+  }
+
+  async getCidadeIdEstado(id:number){
+    return await CidadeSchema.findAll({where:{cod_estado:id}})
   }
 }

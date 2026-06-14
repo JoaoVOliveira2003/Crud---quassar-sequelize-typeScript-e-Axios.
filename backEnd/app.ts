@@ -8,7 +8,10 @@ import { TipoUsuarioSchema} from './schema/tipoUsuario-schema.ts'
 import { EnderecoSchema } from "./schema/endereco-schema.ts";
 import { TipoNotaSchema } from "./schema/tipoNota-schema.ts";
 import { NotaSchema } from "./schema/notas-schema.ts";
+import { EstadoSchema } from "./schema/estado-schema.ts";
+import { PaisSchema } from "./schema/pais-schema.ts";
 
+import { routerEstados  } from "./routes/estado.ts";
 import { routerUsuarios } from "./routes/usuarios.ts";
 import { routerCidades  } from "./routes/cidades.ts";
 import { routerLogin } from "./routes/login.ts";
@@ -16,6 +19,7 @@ import { routerTipoUsuarios} from "./routes/tipoUsuarios.ts"
 import { routerUsuarioLogado} from './routes/usuarioLogado.ts'
 import { routerNotas } from './routes/notas.ts'
 import { routerTipoNota } from './routes/tipoNota.ts'
+import { routerPais } from './routes/pais.ts'
 
 import cookieParser from 'cookie-parser';
 import "dotenv/config";
@@ -29,7 +33,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const db = { UsuarioSchema, EnderecoSchema, CidadeSchema,LoginSchema,TipoUsuarioSchema,TipoNotaSchema,NotaSchema };
+const db = { UsuarioSchema, EnderecoSchema, CidadeSchema,LoginSchema,TipoUsuarioSchema,TipoNotaSchema,NotaSchema,EstadoSchema, PaisSchema};
 
 (Object.values(db) as any).forEach((schema: any) => {
   if (schema.associate) {
@@ -44,5 +48,7 @@ app.use("/tiposUsuarios/",routerTipoUsuarios);
 app.use("/usuarioLogado/",routerUsuarioLogado);
 app.use("/notas",routerNotas);
 app.use("/tiposNota/",routerTipoNota);
+app.use("/estado",routerEstados)
+app.use("/pais",routerPais)
 
 export default app;
