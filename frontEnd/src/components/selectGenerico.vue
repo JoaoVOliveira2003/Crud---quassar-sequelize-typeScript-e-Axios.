@@ -1,48 +1,61 @@
 <template>
-   <q-select v-model="valorSelecionado" :options="options" :option-label="campoDescricao" :option-value="campoValor"
-      emit-value map-options outlined :label="label" @update:model-value="onChange" />
+   <q-select
+      v-model="valorSelecionado"
+      :options="opcoes"
+      :option-label="campoDescricao"
+      :option-value="campoValor"
+      emit-value
+      map-options
+      outlined
+      :label="rotulo"
+      @update:model-value="aoSelecionar"
+   />
 </template>
+
+emit-value: faz o v-model armazenar apenas o valor definido em option-value (ex: id).
+map-options: encontra o objeto correspondente ao valor armazenado para exibir o texto correto.
+outlined: adiciona uma borda ao campo (apenas visual).
 
 <script setup lang="ts">
 import { ref } from 'vue'
 
-interface OptionItem {
-   [key: string]: string | number
+// basicamente esta falando que vai ter uma chave string e um valor sting ou number
+interface ItemOpcao {
+   [chave: string]: string | number
 }
 
 const props = defineProps({
-   options: {
-      type: Array as () => OptionItem[],
+   opcoes: {
+      // Essa prop é um Array e os elementos desse array são do tipo ItemOpcao
+      type: Array as () => ItemOpcao[],
       required: true
    },
-
-   label: {
+   rotulo: {
       type: String,
       default: 'Selecione'
    },
-
    campoDescricao: {
       type: String,
       default: 'nome'
    },
-
    campoValor: {
       type: String,
       default: 'id'
    }
 })
 
-const emit = defineEmits(['selecionado'])
+const emitir = defineEmits(['selecionado'])
 
 const valorSelecionado = ref<string | number | null>(null)
 
-function onChange(valor: string | number) {
-   const item = props.options.find(
+// ao selecionar vai emitir o valor selecionado com esse valor
+function aoSelecionar(valor: string | number) {
+   const itemSelecionado = props.opcoes.find(
       registro => registro[props.campoValor] === valor
    )
 
-   if (!item) return
+   if (!itemSelecionado) return
 
-   emit('selecionado', item)
+   emitir('selecionado', itemSelecionado)
 }
 </script>
